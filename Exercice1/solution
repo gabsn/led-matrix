@@ -1,0 +1,43 @@
+Il est normal que "y" ne soit pas placé dans la section .bss étant donné que c'est une variable globale et qu'elle pourrait être initialisée dans un autre fichier.
+"y" est donc placée dans la section *COM* en attendant que le linker sache si elle est initialisée (data) ou pas (bss).
+
+Concernant le fait que l'adresse de "y" soit 4, j'ai utilisé la commande : 
+$ gcc -c b.c
+$ objdump -t b.o
+
+J'obtiens le résultat suivant :
+
+b.o:     file format elf64-x86-64
+
+SYMBOL TABLE:
+0000000000000000 l    df *ABS*	0000000000000000 b.c
+0000000000000000 l    d  .text	0000000000000000 .text
+0000000000000000 l    d  .data	0000000000000000 .data
+0000000000000000 l    d  .bss	0000000000000000 .bss
+0000000000000000 l    d  .rodata	0000000000000000 .rodata
+0000000000000000 l     O .bss	0000000000000001 z.2256
+0000000000000000 l    d  .note.GNU-stack	0000000000000000 .note.GNU-stack
+0000000000000000 l    d  .eh_frame	0000000000000000 .eh_frame
+0000000000000000 l    d  .comment	0000000000000000 .comment
+0000000000000000 g     O .data	0000000000000004 x
+0000000000000001       O *COM*	0000000000000001 a
+0000000000000002       O *COM*	0000000000000002 b
+0000000000000004       O *COM*	0000000000000004 y
+0000000000000008       O *COM*	0000000000000008 c
+0000000000000003       O *COM*	0000000000000001 s1
+0000000000000008       O *COM*	0000000000000004 s2
+000000000000000c       O *COM*	0000000000000004 s3
+0000000000000010       O *COM*	0000000000000010 s4
+0000000000000014       O *COM*	0000000000000010 s5
+0000000000000018       O *COM*	0000000000000010 s6
+000000000000001c       O *COM*	0000000000000010 s7
+0000000000000000 g     O .rodata	000000000000000e mesg
+0000000000000000 g     F .text	0000000000000077 main
+0000000000000000         *UND*	0000000000000000 puts
+0000000000000000         *UND*	0000000000000000 printf
+
+On peut donc observer que la colonne de gauche qui correspond normalement aux adresses contient la taille de nos variables alors que la colonne de droite qui est sensée correspondre à la taille contient des nombres en qui ne sont pas la taille de nos objets. On remarque néanmoins que ces valeurs sont des puissances de deux.
+
+
+
+

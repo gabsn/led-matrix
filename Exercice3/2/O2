@@ -1,0 +1,33 @@
+
+a.o:     file format elf32-littlearm
+
+Contents of section .data:
+ 0000 22000000                             "...            
+Contents of section .text.startup:
+ 0000 0c30a0e3 70402de9 50509fe5 0040d5e5  .0..p@-.PP...@..
+ 0010 4c609fe5 014084e2 08d04de2 ff4004e2  L`...@....M..@..
+ 0020 40009fe5 0040c5e5 003086e5 feffffeb  @....@...0......
+ 0030 34109fe5 0c4084e2 001091e5 002096e5  4....@....... ..
+ 0040 0030d5e5 00408de5 20009fe5 feffffeb  .0...@.. .......
+ 0050 0000a0e3 08d08de2 7040bde8 1eff2fe1  ........p@..../.
+ 0060 00000000 00000000 00000000 00000000  ................
+ 0070 10000000                             ....            
+Contents of section .rodata:
+ 0000 48656c6c 6f20576f 726c6421 0a00      Hello World!..  
+Contents of section .rodata.str1.4:
+ 0000 48656c6c 6f20576f 726c6421 00000000  Hello World!....
+ 0010 78203d20 25642c20 79203d20 25642c20  x = %d, y = %d, 
+ 0020 7a203d20 25642c20 74203d20 25640a00  z = %d, t = %d..
+Contents of section .comment:
+ 0000 00474343 3a202847 4e552054 6f6f6c73  .GCC: (GNU Tools
+ 0010 20666f72 2041524d 20456d62 65646465   for ARM Embedde
+ 0020 64205072 6f636573 736f7273 2920342e  d Processors) 4.
+ 0030 392e3320 32303135 30353239 20287265  9.3 20150529 (re
+ 0040 6c656173 6529205b 41524d2f 656d6265  lease) [ARM/embe
+ 0050 64646564 2d345f39 2d627261 6e636820  dded-4_9-branch 
+ 0060 72657669 73696f6e 20323237 3937375d  revision 227977]
+ 0070 00                                   .               
+Contents of section .ARM.attributes:
+ 0000 412f0000 00616561 62690001 25000000  A/...aeabi..%...
+ 0010 0541524d 3754444d 49000602 08010901  .ARM7TDMI.......
+ 0020 12041401 15011703 18011901 1a011e02  ................
