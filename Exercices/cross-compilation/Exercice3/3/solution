@@ -1,0 +1,259 @@
+Pour O0, on obtient :
+
+a.o:     file format elf32-littlearm
+
+Contents of section .text:
+ 0000 00482de9 04b08de2 10d04de2 90309fe5  .H-.......M..0..
+ 0010 0c20a0e3 002083e5 88309fe5 0030d3e5  . ... ...0...0..
+ 0020 013083e2 ff2003e2 78309fe5 0020c3e5  .0... ..x0... ..
+ 0030 70309fe5 0030d3e5 0338a0e1 2328a0e1  p0...0...8..#(..
+ 0040 5c309fe5 003093e5 0338a0e1 2338a0e1  \0...0...8..#8..
+ 0050 033082e0 b6304be1 4c009fe5 feffffeb  .0...0K.L.......
+ 0060 48309fe5 001093e5 34309fe5 002093e5  H0......40... ..
+ 0070 30309fe5 0030d3e5 03c0a0e1 b6305be1  00...0.......0[.
+ 0080 00308de5 28009fe5 0c30a0e1 feffffeb  .0..(....0......
+ 0090 0030a0e3 0300a0e1 04d04be2 0048bde8  .0........K..H..
+ 00a0 1eff2fe1 00000000 00000000 10000000  ../.............
+ 00b0 00000000 20000000                    .... ...        
+Contents of section .data:
+ 0000 22000000                             "...            
+Contents of section .rodata:
+ 0000 48656c6c 6f20576f 726c6421 0a000000  Hello World!....
+ 0010 48656c6c 6f20576f 726c6421 00000000  Hello World!....
+ 0020 78203d20 25642c20 79203d20 25642c20  x = %d, y = %d, 
+ 0030 7a203d20 25642c20 74203d20 25640a00  z = %d, t = %d..
+Contents of section .comment:
+ 0000 00474343 3a202847 4e552054 6f6f6c73  .GCC: (GNU Tools
+ 0010 20666f72 2041524d 20456d62 65646465   for ARM Embedde
+ 0020 64205072 6f636573 736f7273 2920342e  d Processors) 4.
+ 0030 392e3320 32303135 30353239 20287265  9.3 20150529 (re
+ 0040 6c656173 6529205b 41524d2f 656d6265  lease) [ARM/embe
+ 0050 64646564 2d345f39 2d627261 6e636820  dded-4_9-branch 
+ 0060 72657669 73696f6e 20323237 3937375d  revision 227977]
+ 0070 00                                   .               
+Contents of section .ARM.attributes:
+ 0000 412f0000 00616561 62690001 25000000  A/...aeabi..%...
+ 0010 0541524d 3754444d 49000602 08010901  .ARM7TDMI.......
+ 0020 12041401 15011703 18011901 1a011e06  ................
+
+***********************************************************
+
+Pour O1, on a :
+
+a.o:     file format elf32-littlearm
+
+Contents of section .text:
+ 0000 70402de9 08d04de2 50609fe5 0c30a0e3  p@-...M.P`...0..
+ 0010 003086e5 48509fe5 0040d5e5 014084e2  .0..HP...@...@..
+ 0020 ff4004e2 0040c5e5 38009fe5 feffffeb  .@...@..8.......
+ 0030 34309fe5 001093e5 002096e5 0030d5e5  40....... ...0..
+ 0040 0c4084e2 00408de5 20009fe5 feffffeb  .@...@.. .......
+ 0050 0000a0e3 08d08de2 7040bde8 1eff2fe1  ........p@..../.
+ 0060 00000000 00000000 00000000 00000000  ................
+ 0070 10000000                             ....            
+Contents of section .data:
+ 0000 22000000                             "...            
+Contents of section .rodata.str1.4:
+ 0000 48656c6c 6f20576f 726c6421 00000000  Hello World!....
+ 0010 78203d20 25642c20 79203d20 25642c20  x = %d, y = %d, 
+ 0020 7a203d20 25642c20 74203d20 25640a00  z = %d, t = %d..
+Contents of section .comment:
+ 0000 00474343 3a202847 4e552054 6f6f6c73  .GCC: (GNU Tools
+ 0010 20666f72 2041524d 20456d62 65646465   for ARM Embedde
+ 0020 64205072 6f636573 736f7273 2920342e  d Processors) 4.
+ 0030 392e3320 32303135 30353239 20287265  9.3 20150529 (re
+ 0040 6c656173 6529205b 41524d2f 656d6265  lease) [ARM/embe
+ 0050 64646564 2d345f39 2d627261 6e636820  dded-4_9-branch 
+ 0060 72657669 73696f6e 20323237 3937375d  revision 227977]
+ 0070 00                                   .               
+Contents of section .ARM.attributes:
+ 0000 412f0000 00616561 62690001 25000000  A/...aeabi..%...
+ 0010 0541524d 3754444d 49000602 08010901  .ARM7TDMI.......
+ 0020 12041401 15011703 18011901 1a011e01  ................
+
+ **********************************************************
+
+Pour 02, on a :
+
+a.o:     file format elf32-littlearm
+
+Contents of section .data:
+ 0000 22000000                             "...            
+Contents of section .text.startup:
+ 0000 0c30a0e3 70402de9 50509fe5 0040d5e5  .0..p@-.PP...@..
+ 0010 4c609fe5 014084e2 08d04de2 ff4004e2  L`...@....M..@..
+ 0020 40009fe5 0040c5e5 003086e5 feffffeb  @....@...0......
+ 0030 34109fe5 0c4084e2 001091e5 002096e5  4....@....... ..
+ 0040 0030d5e5 00408de5 20009fe5 feffffeb  .0...@.. .......
+ 0050 0000a0e3 08d08de2 7040bde8 1eff2fe1  ........p@..../.
+ 0060 00000000 00000000 00000000 00000000  ................
+ 0070 10000000                             ....            
+Contents of section .rodata.str1.4:
+ 0000 48656c6c 6f20576f 726c6421 00000000  Hello World!....
+ 0010 78203d20 25642c20 79203d20 25642c20  x = %d, y = %d, 
+ 0020 7a203d20 25642c20 74203d20 25640a00  z = %d, t = %d..
+Contents of section .comment:
+ 0000 00474343 3a202847 4e552054 6f6f6c73  .GCC: (GNU Tools
+ 0010 20666f72 2041524d 20456d62 65646465   for ARM Embedde
+ 0020 64205072 6f636573 736f7273 2920342e  d Processors) 4.
+ 0030 392e3320 32303135 30353239 20287265  9.3 20150529 (re
+ 0040 6c656173 6529205b 41524d2f 656d6265  lease) [ARM/embe
+ 0050 64646564 2d345f39 2d627261 6e636820  dded-4_9-branch 
+ 0060 72657669 73696f6e 20323237 3937375d  revision 227977]
+ 0070 00                                   .               
+Contents of section .ARM.attributes:
+ 0000 412f0000 00616561 62690001 25000000  A/...aeabi..%...
+ 0010 0541524d 3754444d 49000602 08010901  .ARM7TDMI.......
+ 0020 12041401 15011703 18011901 1a011e02  ................
+
+ **********************************************************
+
+ Pour 03, on a :
+
+a.o:     file format elf32-littlearm
+
+Contents of section .data:
+ 0000 22000000                             "...            
+Contents of section .text.startup:
+ 0000 0c30a0e3 70402de9 50509fe5 0040d5e5  .0..p@-.PP...@..
+ 0010 4c609fe5 014084e2 08d04de2 ff4004e2  L`...@....M..@..
+ 0020 40009fe5 0040c5e5 003086e5 feffffeb  @....@...0......
+ 0030 34109fe5 0c4084e2 001091e5 002096e5  4....@....... ..
+ 0040 0030d5e5 00408de5 20009fe5 feffffeb  .0...@.. .......
+ 0050 0000a0e3 08d08de2 7040bde8 1eff2fe1  ........p@..../.
+ 0060 00000000 00000000 00000000 00000000  ................
+ 0070 10000000                             ....            
+Contents of section .rodata.str1.4:
+ 0000 48656c6c 6f20576f 726c6421 00000000  Hello World!....
+ 0010 78203d20 25642c20 79203d20 25642c20  x = %d, y = %d, 
+ 0020 7a203d20 25642c20 74203d20 25640a00  z = %d, t = %d..
+Contents of section .comment:
+ 0000 00474343 3a202847 4e552054 6f6f6c73  .GCC: (GNU Tools
+ 0010 20666f72 2041524d 20456d62 65646465   for ARM Embedde
+ 0020 64205072 6f636573 736f7273 2920342e  d Processors) 4.
+ 0030 392e3320 32303135 30353239 20287265  9.3 20150529 (re
+ 0040 6c656173 6529205b 41524d2f 656d6265  lease) [ARM/embe
+ 0050 64646564 2d345f39 2d627261 6e636820  dded-4_9-branch 
+ 0060 72657669 73696f6e 20323237 3937375d  revision 227977]
+ 0070 00                                   .               
+Contents of section .ARM.attributes:
+ 0000 412f0000 00616561 62690001 25000000  A/...aeabi..%...
+ 0010 0541524d 3754444d 49000602 08010901  .ARM7TDMI.......
+ 0020 12041401 15011703 18011901 1a011e02  ................
+
+ **********************************************************
+
+On observe que pour O0, il n'y a pas de section .rodata.str1.4, comme lorsqu'il n'y avait pas le mot clé static.
+Pour O1, O2, O3 il n'y a plus la section .rodata. Il n'y a plus que la section .rodata.str1.4.
+
+Pour comprendre ça j'ai compilé le code suivant :
+
+#include <stdint.h> 
+#include <stdio.h> 
+
+int32_t x = 34; 
+int32_t y; 
+static const char mesg[] = "Hello World!"; 
+
+int main() { 
+    static uint8_t z; 
+    uint16_t t;
+    y = 12; 
+    z = z + 1; 
+    t = y+z; 
+    printf(mesg); 
+    return 0; 
+}
+
+Avec la commande :
+$ arm-none-eabi-gcc -O1 -c a.c
+$ arm-none-eabi-objdump -s a.o > O1
+
+On obtient :
+
+a.o:     file format elf32-littlearm
+
+Contents of section .text:
+ 0000 08402de9 0c20a0e3 24309fe5 002083e5  .@-.. ..$0... ..
+ 0010 20209fe5 0030d2e5 013083e2 0030c2e5    ...0...0...0..
+ 0020 14009fe5 feffffeb 0000a0e3 0840bde8  .............@..
+ 0030 1eff2fe1 00000000 00000000 00000000  ../.............
+Contents of section .data:
+ 0000 22000000                             "...            
+Contents of section .rodata:
+ 0000 48656c6c 6f20576f 726c6421 00        Hello World!.   
+Contents of section .comment:
+ 0000 00474343 3a202847 4e552054 6f6f6c73  .GCC: (GNU Tools
+ 0010 20666f72 2041524d 20456d62 65646465   for ARM Embedde
+ 0020 64205072 6f636573 736f7273 2920342e  d Processors) 4.
+ 0030 392e3320 32303135 30353239 20287265  9.3 20150529 (re
+ 0040 6c656173 6529205b 41524d2f 656d6265  lease) [ARM/embe
+ 0050 64646564 2d345f39 2d627261 6e636820  dded-4_9-branch 
+ 0060 72657669 73696f6e 20323237 3937375d  revision 227977]
+ 0070 00                                   .               
+Contents of section .ARM.attributes:
+ 0000 412f0000 00616561 62690001 25000000  A/...aeabi..%...
+ 0010 0541524d 3754444d 49000602 08010901  .ARM7TDMI.......
+ 0020 12041401 15011703 18011901 1a011e01  ................
+
+Ensuite en refait la même chose avec le code :
+
+#include <stdint.h> 
+#include <stdio.h> 
+
+int32_t x = 34; 
+int32_t y; 
+static const char mesg[] = "Hello World!\n"; 
+
+int main() { 
+    static uint8_t z; 
+    uint16_t t;
+    y = 12; 
+    z = z + 1; 
+    t = y+z; 
+    printf(mesg); 
+    //printf("x = %d, y = %d, z = %d, t = %d\n", x, y, z, t); 
+    return 0; 
+}
+
+J'ai obtenu :
+
+a.o:     file format elf32-littlearm
+
+Contents of section .text:
+ 0000 08402de9 0c20a0e3 24309fe5 002083e5  .@-.. ..$0... ..
+ 0010 20209fe5 0030d2e5 013083e2 0030c2e5    ...0...0...0..
+ 0020 14009fe5 feffffeb 0000a0e3 0840bde8  .............@..
+ 0030 1eff2fe1 00000000 00000000 00000000  ../.............
+Contents of section .data:
+ 0000 22000000                             "...            
+Contents of section .rodata.str1.4:
+ 0000 48656c6c 6f20576f 726c6421 00        Hello World!.   
+Contents of section .comment:
+ 0000 00474343 3a202847 4e552054 6f6f6c73  .GCC: (GNU Tools
+ 0010 20666f72 2041524d 20456d62 65646465   for ARM Embedde
+ 0020 64205072 6f636573 736f7273 2920342e  d Processors) 4.
+ 0030 392e3320 32303135 30353239 20287265  9.3 20150529 (re
+ 0040 6c656173 6529205b 41524d2f 656d6265  lease) [ARM/embe
+ 0050 64646564 2d345f39 2d627261 6e636820  dded-4_9-branch 
+ 0060 72657669 73696f6e 20323237 3937375d  revision 227977]
+ 0070 00                                   .               
+Contents of section .ARM.attributes:
+ 0000 412f0000 00616561 62690001 25000000  A/...aeabi..%...
+ 0010 0541524d 3754444d 49000602 08010901  .ARM7TDMI.......
+ 0020 12041401 15011703 18011901 1a011e01  ................
+
+ **********************************************************
+
+On voit que dès que l'on ajoute "\n" à la chaine de caractère "Hello World!", cette chaine n'est plus placée dans .rodata mais dans .rodata.str1.4.
+
+On en déduis que la section .rodata.str1.4 contient déjà l'information "retour à la ligne".
+
+************************************************************
+
+Concernant le mot clé static : lorsque la chaine de caractère est déclarée dans une variable gobale constante, elle est stockée à la fois dans .rodata (forme brute) et .rodata.str1.4 (forme directement utilisable dans printf) car il est possible qu'un autre fichier cherche à utiliser la chaine de caractère. Il faut donc la laisser telle quelle dans .rodata.
+Lorsque l'on utilise le mot clé static, cela veut dire que la portée de la variable est limitée au fichier. Il est donc inutile de conserver la forme brute de la variable dans .rodata. Il suffit de conserver seulement la chaine de caractère sans le "\n" afin de permettre au printf de l'afficher correctement avec un retour à la ligne.
+
+
+
+
