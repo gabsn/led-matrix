@@ -10,6 +10,7 @@ OBJ = $(patsubst %.c, %.o, $(SRC))
 EXE = main
 
 $(EXE): $(OBJ)
+	$(LINK.o) $^ -o $@
 
 startgdbserver: 
 	JLinkGDBServer -if swd -device "MKL46Z256xxx4" -LocalhostOnly
