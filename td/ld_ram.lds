@@ -1,4 +1,6 @@
-ENTRY(main)
+ENTRY(_start)
+
+_stack_top = 0x20000000;
 
 MEMORY {
 	rom (rx) : ORIGIN = 0, LENGTH = 256K
@@ -9,18 +11,29 @@ MEMORY {
 SECTIONS {
     .text : { 
         *(.text) 
+        _etext = . ;
     } > ramh
 
     .rodata : { 
+        _rodata = . ;
         *(.rodata) 
+        _erodata = . ;
     } > ramh
 
     .data : { 
+        _data = . ;
         *(.data) 
+        _edata = . ;
     } > ramh
     
     .bss : { 
+        _bss = . ;
         *(.bss COMMON) 
+        _ebss = . ;
     } > ramh
+
+    .stack : {
+    } > raml
 }
+
 
