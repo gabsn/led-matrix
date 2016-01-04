@@ -4,7 +4,7 @@ _start:
     ldr r0, =_stack_top 
     mov sp, r0
     bl init_bss
-    bl main
+    bl init_led
 end:
     b end
     
