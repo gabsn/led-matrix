@@ -27,9 +27,9 @@ SECTIONS {
     } > ramh
     
     .bss : { 
-        _bss = . ;
+        _bstart = . ;
         *(.bss COMMON) 
-        _ebss = . ;
+        _bend = . ;
     } > ramh
 
     .stack : {

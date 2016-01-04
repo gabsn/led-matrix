@@ -11,13 +11,12 @@ SRC = $(wildcard *.c)
 OBJ = $(patsubst %.c, %.o, $(SRC)) crt0.o
 EXE = main
 
-
 all: $(EXE)
 
 $(EXE): $(OBJ)
 	$(LINK.o) $^ -o $@
 
--include $(subst .c, .d, $(SRC))
+-include $(subst .c,.d, $(SRC))
 
 %d: %.c
 	$(CC) $(CFLAGS) -MM -MF $@ -MP $<
