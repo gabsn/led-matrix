@@ -6,7 +6,7 @@ CFLAGS = $(CWARNINGS) -g -O1 -mcpu=cortex-m0plus -mthumb -nostdlib
 LDSRC = ld_ram.lds
 LDFLAGS = -g -nostdlib -T $(LDSRC)
 ASFLAGS = -g -mcpu=cortex-m0plus
-VPATH = ./include ./bin
+VPATH = ./bin ./include
 
 SRC = $(wildcard *.c) 
 OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o
