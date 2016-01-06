@@ -6,9 +6,11 @@ CFLAGS = $(CWARNINGS) -g -O1 -mcpu=cortex-m0plus -mthumb -nostdlib
 LDSRC = ld_ram.lds
 LDFLAGS = -g -nostdlib -T $(LDSRC)
 ASFLAGS = -g -mcpu=cortex-m0plus
+VPATH = ./include ./bin
 
 SRC = $(wildcard *.c) 
-OBJ = $(patsubst %.c, %.o, $(SRC)) crt0.o
+OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o
+OBJ = $(OBJSRC) clocks.o
 EXE = main
 
 all: $(EXE)
@@ -30,7 +32,7 @@ gdb:
 	$(PREFIX)$@ $(EXE) 
 
 clean:
-	rm -rf $(OBJ) $(EXE) 
+	rm -rf $(OBJSRC) $(EXE) 
 
 
 
