@@ -5,6 +5,9 @@ _start:
     mov sp, r0
     bl init_bss
     bl led_init
+toggle:    
+    bl led_toggle
+    b toggle
 end:
     b end
     

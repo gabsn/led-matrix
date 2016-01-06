@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 // set clock
-#define SIM_SG5 (*(volatile uint32_t *) 0x40048038)
+#define SIM_SCGC5 (*(volatile uint32_t *) 0x40048038)
 
 // set pin controller register
 #define PORTD_PCR5 (*(volatile uint32_t *) 0x4004c014)
@@ -21,18 +21,40 @@
 
 void led_init() {
     // activation of D et E ports' clocks
-    SIM_SG5 = 0x00003182;
+    uint32_t old_value = SIM_SCGC5;
+    SIM_SCGC5 = old_value | 0x00003000;
 
     // pins into gpio mode
     PORTD_PCR5 = 0x00000100;
     PORTE_PCR29 = 0x00000100;
 
     // pins into output mode
-    GPIOD_PDDR = 1;
-    GPIOE_PDDR = 1;
-
+    GPIOD_PDDR = 0x00000020;
+    GPIOE_PDDR = 0x20000000;
+}
+    
+void led_on() {
     // light the leds
+    GPIOD_PCOR = 1;
+    GPIOE_PCOR = 1;
+}
+
+void led_off() {
+    // light off the leds
     GPIOD_PSOR = 1;
     GPIOE_PSOR = 1;
 }
-    
+
+void led_toggle() {
+    led_on();
+    int i;
+    for (i=0; i<100; ++i) {
+        asm volatile("nop");
+    }
+    led_off();
+    for (i=0; i<100; ++i) {
+        asm volatile("nop");
+    }
+}
+
+
