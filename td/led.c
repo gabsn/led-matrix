@@ -47,11 +47,11 @@ void led_off() {
 void led_toggle() {
     led_on();
     int i;
-    for (i=0; i<100; ++i) {
+    for (i=0; i<1000000; ++i) {
         asm volatile("nop");
     }
     led_off();
-    for (i=0; i<100; ++i) {
+    for (i=0; i<1000000; ++i) {
         asm volatile("nop");
     }
 }
