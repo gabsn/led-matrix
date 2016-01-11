@@ -53,16 +53,8 @@ void uart_init() {
     UART0_C2 |= 0xc;
 }
 
-/*
+
 void uart_putchar(char c) {
     while (!(UART0_S1 & (1 << 7)) || !(UART0_S1 & (1 << 6))) {}
     UART0_D = c;
 }
-*/
-
-void uart_putchar(char c){
-    while(!(UART0_S1 & 0x80) && !(UART0_S1 & 0x40)){}
-        UART0_D = c;
-}
-
-
