@@ -75,11 +75,14 @@ void uart_gets(char *s, int size) {
     unsigned char c;
     for (i=0; i<size; ++i) {
         c = uart_getchar();
-        if (c == '\n' || c == '\0')
+        if (c == '\n') {
+            *s = '\0';
             return;
-        else
+        } else {
             *s++ = c;
+        }
     }
+    *s = '\0';
     return;
 }
 

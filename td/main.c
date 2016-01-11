@@ -6,8 +6,9 @@ int main() {
     clocks_init();
     uart_init();
     //uart_putchar(uart_getchar());
-    char *str = "";
-    uart_gets(str,5);
+    const int size = 5;
+    char str[size];
+    uart_gets(str,size);
     uart_puts(str);
 
     return 0;
