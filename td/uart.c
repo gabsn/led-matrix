@@ -58,3 +58,29 @@ void uart_putchar(char c) {
     while (!(UART0_S1 & (1 << 7)) || !(UART0_S1 & (1 << 6))) {}
     UART0_D = c;
 }
+
+unsigned char uart_getchar() {
+    while (!(UART0_S1 & 0x20)) {}
+    return UART0_D;
+}
+
+void uart_puts(const char *s) {
+    while(*s) {
+        uart_putchar(*s++);
+    }
+}
+
+void uart_gets(char *s, int size) {
+    int i;
+    unsigned char c;
+    for (i=0; i<size; ++i) {
+        c = uart_getchar();
+        if (c == '\n' || c == '\0')
+            return;
+        else
+            *s++ = c;
+    }
+    return;
+}
+
+

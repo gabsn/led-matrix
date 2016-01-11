@@ -5,7 +5,10 @@
 int main() {
     clocks_init();
     uart_init();
-    uart_putchar('b');
+    //uart_putchar(uart_getchar());
+    char *str = "";
+    uart_gets(str,5);
+    uart_puts(str);
 
     return 0;
 }
