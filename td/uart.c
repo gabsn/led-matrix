@@ -35,7 +35,7 @@ void uart_init() {
     PORTA_PCR2 |= 0x200;  
 
     // Set oversampling to 29 times
-    UART0_C4 |= 29;
+    UART0_C4 |= 28;
 
     // Set baud rate
     UART0_BDL = 7;
@@ -60,6 +60,7 @@ void uart_putchar(char c) {
 }
 
 unsigned char uart_getchar() {
+    UART0_S1 &= 0x8;
     while (!(UART0_S1 & 0x20)) {}
     return UART0_D;
 }
@@ -75,7 +76,7 @@ void uart_gets(char *s, int size) {
     unsigned char c;
     for (i=0; i<size; ++i) {
         c = uart_getchar();
-        if (c == '\n') {
+        if (c == '\r') {
             *s = '\0';
             return;
         } else {
