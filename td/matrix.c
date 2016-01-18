@@ -1,32 +1,31 @@
+// Clocks register
 #define SIM_SCGC5 (*(volatile uint32_t * const) 0x40048038)
 
-// Bind driver's pins to cpu's pins 
-
-//PA4
+// PA4
 #define C7 (*(volatile uint32_t * const) 0x40049010)
-//PA12
+// PA12
 #define C6 (*(volatile uint32_t * const) 0x40049030)
-//PA13
+// PA13
 #define C0 (*(volatile uint32_t * const) 0x40049034)
-//PB0
+// PB0
 #define SLB (*(volatile uint32_t * const) 0x4004a000)
-//PB1
+// PB1
 #define LAT (*(volatile uint32_t * const) 0x4004a004)
-//PB2
+// PB2
 #define RST (*(volatile uint32_t * const) 0x4004a008)
-//PC8
+// PC8
 #define SCK (*(volatile uint32_t * const) 0x4004b020)
-//PC9
+// PC9
 #define SDA (*(volatile uint32_t * const) 0x4004b024)
-//PD2
+// PD2
 #define C1 (*(volatile uint32_t * const) 0x4004c008)
-//PD4
+// PD4
 #define C2 (*(volatile uint32_t * const) 0x4004c010)
-//PD5
+// PD5
 #define C5 (*(volatile uint32_t * const) 0x4004c014)
-//PD6
+// PD6
 #define C3 (*(volatile uint32_t * const) 0x4004c018)
-//PD7
+// PD7
 #define C4 (*(volatile uint32_t * const) 0x4004c01C)
 
 // GPIO registers
@@ -87,8 +86,4 @@ void matrix_init() {
     GPIOD_PDDR |= 0xf4;
 
     // Initializing
-    GPIOC_PCOR |= (1 << 8);
-    GPIOB_PSOR |= (1 << 1);
-    GPIOB_PSOR |= 1;
-    GPIOC_PCOR |= 0x300;  
 
