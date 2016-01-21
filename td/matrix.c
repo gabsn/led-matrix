@@ -48,10 +48,10 @@
 #define GPIOD_PSOR (*(volatile uint32_t * const) 0x400ff0c4)
 
 // Clear Output registers
-#define GPIOA_PCOR (*(volatile uint32_t *) 0x400ff008)
-#define GPIOB_PCOR (*(volatile uint32_t *) 0x400ff048)
-#define GPIOC_PCOR (*(volatile uint32_t *) 0x400ff088)
-#define GPIOD_PCOR (*(volatile uint32_t *) 0x400ff0c8)
+#define GPIOA_PCOR (*(volatile uint32_t * const) 0x400ff008)
+#define GPIOB_PCOR (*(volatile uint32_t * const) 0x400ff048)
+#define GPIOC_PCOR (*(volatile uint32_t * const) 0x400ff088)
+#define GPIOD_PCOR (*(volatile uint32_t * const) 0x400ff0c8)
 
 void matrix_init() {
     // Set clock for port A, B, C and D
@@ -94,17 +94,63 @@ void matrix_init() {
     ROW6(0);
     ROW7(0);
 
-    // Wait 500ms then continue
+    // Wait at least 100ms then continue
     wait_for(500);
     RST(1);
 }
 
 void pulse_SCK() {
     SCK(0);
-    // We need to wait at least 2ns in low state
+    // We need to wait at least for 2ns in low state
     wait_for(1);
     SCK(1);
-    //We need to wait at least 2ns in high state
+    //We need to wait at least for 2ns in high state
     wait_for(1);
     SCK(0);
 }
+
+void pulse_LAT() {
+    LAT(1);
+    // We need to wait at least for 25ns
+    wait_for(1);
+    LAT(0);
+    // We need to wait at least for 7ns
+    wait_for(1);
+    LAT(1);
+}
+
+void desactivate_rows() {
+    ROW0(0);
+    ROW1(0);
+    ROW2(0);
+    ROW3(0);
+    ROW4(0);
+    ROW5(0);
+    ROW6(0);
+    ROW7(0);
+}
+
+void activate_row(int row) {
+    switch (row) {
+        case 0 :
+            ROW0(1);
+        case 1 :
+            ROW1(1);
+        case 2 :
+            ROW2(1);
+        case 3 :
+            ROW3(1);
+        case 4 :
+            ROW4(1);
+        case 5 :
+            ROW5(1);
+        case 6 :
+            ROW6(1);
+        case 7 :
+            ROW7(1);
+    }
+}
+
+
+
+
