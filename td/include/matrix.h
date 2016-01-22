@@ -9,6 +9,7 @@ typedef struct {
   unsigned char b;
 } rgb_color;
 
+void matrix_init();
 void pulse_SCK();
 void pulse_LAT();
 void desactivate_rows();
