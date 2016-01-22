@@ -12,11 +12,8 @@ end
 
 # Define macro to reset the cpu
 define flash
-    dont-repeat
-    mon halt
-    mon reset
     mon reset
     load
     b main
-    cont
 end
+

@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "include/utils.h"
+
 // set clock
 #define SIM_SCGC5 (*(volatile uint32_t *) 0x40048038)
 
@@ -46,14 +48,9 @@ void led_off() {
 
 void led_toggle() {
     led_on();
-    int i;
-    for (i=0; i<1000000; ++i) {
-        asm volatile("nop");
-    }
+    wait_for(500);
     led_off();
-    for (i=0; i<1000000; ++i) {
-        asm volatile("nop");
-    }
+    wait_for(500);
 }
 
 

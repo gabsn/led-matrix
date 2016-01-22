@@ -14,7 +14,7 @@
 #define ROW2(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 4)) : (GPIOD_PSOR |= (1 << 4))) 
 #define ROW3(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 6)) : (GPIOD_PSOR |= (1 << 6))) 
 #define ROW4(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 7)) : (GPIOD_PSOR |= (1 << 7))) 
-#define ROW5(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 7)) : (GPIOD_PSOR |= (1 << 7))) 
+#define ROW5(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 5)) : (GPIOD_PSOR |= (1 << 5))) 
 #define ROW6(x) ((x == 0) ? (GPIOA_PCOR |= (1 << 12)) : (GPIOA_PSOR |= (1 << 12))) 
 #define ROW7(x) ((x == 0) ? (GPIOA_PCOR |= (1 << 4)) : (GPIOA_PSOR |= (1 << 4))) 
 
@@ -79,27 +79,22 @@ void matrix_init() {
     GPIOC_PDDR |= 0x300;
     GPIOD_PDDR |= 0xf4;
 
-    // Initializing
+    // Reseting DM163
     RST(0);
+    wait_for(200);
+    RST(1);
+
+    // Initializing
     LAT(1);
-    // Selection of BANK1
     SB(1);
     SCK(0);
     SDA(0);
-    ROW0(0);
-    ROW1(0);
-    ROW2(0);
-    ROW3(0);
-    ROW4(0);
-    ROW5(0);
-    ROW6(0);
-    ROW7(0);
+    desactivate_rows(); 
+    init_bank0();
 
     // Wait at least for 100ms then continue
-    wait_for(500);
-    RST(1);
-
-    init_bank0();
+    //wait_for(200);
+    //RST(1);
 }
 
 void pulse_SCK() {
@@ -137,20 +132,28 @@ void activate_row(int row) {
     switch (row) {
         case 0 :
             ROW0(1);
+            break;
         case 1 :
             ROW1(1);
+            break;
         case 2 :
             ROW2(1);
+            break;
         case 3 :
             ROW3(1);
+            break;
         case 4 :
             ROW4(1);
+            break;
         case 5 :
             ROW5(1);
+            break;
         case 6 :
             ROW6(1);
+            break;
         case 7 :
             ROW7(1);
+            break;
     }
 }
 
