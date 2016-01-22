@@ -2,7 +2,7 @@ PREFIX = arm-none-eabi-
 CC = $(PREFIX)gcc
 AS = $(PREFIX)as
 CWARNINGS = -Wall -Wextra -Werror
-CFLAGS = $(CWARNINGS) -g -O1 -mcpu=cortex-m0plus -mthumb -nostdlib
+CFLAGS = $(CWARNINGS) -g -O1 -std=c99 -mcpu=cortex-m0plus -mthumb -nostdlib
 LDSRC = ld_ram.lds
 LDFLAGS = -g -nostdlib -T $(LDSRC)
 ASFLAGS = -g -mcpu=cortex-m0plus

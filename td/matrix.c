@@ -1,21 +1,22 @@
 #include <stdint.h>
 
 #include "include/utils.h"
+#include "include/matrix.h"
 
 // Define useful macro to set/clear register
-#define SB(x) ((x == 0) ? GPIOB_PCOR |= 1 : GPIOB_PSOR |= 1) 
-#define LAT(x) ((x == 0) ? GPIOB_PCOR |= (1 << 1) : GPIOB_PSOR |= (1 << 1)) 
-#define RST(x) ((x == 0) ? GPIOB_PCOR |= (1 << 2) : GPIOB_PSOR |= (1 << 2)) 
-#define SCK(x) ((x == 0) ? GPIOC_PCOR |= (1 << 8) : GPIOC_PSOR |= (1 << 8)) 
-#define SDA(x) ((x == 0) ? GPIOC_PCOR |= (1 << 9) : GPIOC_PSOR |= (1 << 9)) 
-#define ROW0(x) ((x == 0) ? GPIOA_PCOR |= (1 << 13) : GPIOA_PSOR |= (1 << 13)) 
-#define ROW1(x) ((x == 0) ? GPIOD_PCOR |= (1 << 2) : GPIOD_PSOR |= (1 << 2)) 
-#define ROW2(x) ((x == 0) ? GPIOD_PCOR |= (1 << 4) : GPIOD_PSOR |= (1 << 4)) 
-#define ROW3(x) ((x == 0) ? GPIOD_PCOR |= (1 << 6) : GPIOD_PSOR |= (1 << 6)) 
-#define ROW4(x) ((x == 0) ? GPIOD_PCOR |= (1 << 7) : GPIOD_PSOR |= (1 << 7)) 
-#define ROW5(x) ((x == 0) ? GPIOD_PCOR |= (1 << 7) : GPIOD_PSOR |= (1 << 7)) 
-#define ROW6(x) ((x == 0) ? GPIOA_PCOR |= (1 << 12) : GPIOA_PSOR |= (1 << 12)) 
-#define ROW7(x) ((x == 0) ? GPIOA_PCOR |= (1 << 4) : GPIOA_PSOR |= (1 << 4)) 
+#define SB(x) ((x == 0) ? (GPIOB_PCOR |= 1) : (GPIOB_PSOR |= 1)) 
+#define LAT(x) ((x == 0) ? (GPIOB_PCOR |= (1 << 1)) : (GPIOB_PSOR |= (1 << 1))) 
+#define RST(x) ((x == 0) ? (GPIOB_PCOR |= (1 << 2)) : (GPIOB_PSOR |= (1 << 2))) 
+#define SCK(x) ((x == 0) ? (GPIOC_PCOR |= (1 << 8)) : (GPIOC_PSOR |= (1 << 8))) 
+#define SDA(x) ((x == 0) ? (GPIOC_PCOR |= (1 << 9)) : (GPIOC_PSOR |= (1 << 9))) 
+#define ROW0(x) ((x == 0) ? (GPIOA_PCOR |= (1 << 13)) : (GPIOA_PSOR |= (1 << 13))) 
+#define ROW1(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 2)) : (GPIOD_PSOR |= (1 << 2))) 
+#define ROW2(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 4)) : (GPIOD_PSOR |= (1 << 4))) 
+#define ROW3(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 6)) : (GPIOD_PSOR |= (1 << 6))) 
+#define ROW4(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 7)) : (GPIOD_PSOR |= (1 << 7))) 
+#define ROW5(x) ((x == 0) ? (GPIOD_PCOR |= (1 << 7)) : (GPIOD_PSOR |= (1 << 7))) 
+#define ROW6(x) ((x == 0) ? (GPIOA_PCOR |= (1 << 12)) : (GPIOA_PSOR |= (1 << 12))) 
+#define ROW7(x) ((x == 0) ? (GPIOA_PCOR |= (1 << 4)) : (GPIOA_PSOR |= (1 << 4))) 
 
 // Clocks register
 #define SIM_SCGC5 (*(volatile uint32_t * const) 0x40048038)
@@ -94,9 +95,11 @@ void matrix_init() {
     ROW6(0);
     ROW7(0);
 
-    // Wait at least 100ms then continue
+    // Wait at least for 100ms then continue
     wait_for(500);
     RST(1);
+
+    init_bank0();
 }
 
 void pulse_SCK() {
@@ -149,6 +152,43 @@ void activate_row(int row) {
         case 7 :
             ROW7(1);
     }
+}
+
+void send_byte(uint8_t val, int bank) {
+    int heavyBit, bit;
+    if (bank == 0) {
+        SB(0);
+        heavyBit = 5;
+    } else {
+        SB(1);
+        heavyBit = 7;
+    }
+
+    for (int i = heavyBit; i >= 0; --i) {
+        bit = val & (1 << i);
+        SDA(bit);
+        pulse_SCK();
+    }
+}
+
+void mat_set_row(int row, const rgb_color *val) {
+    for (int i=7; i>=0; --i) {
+        send_byte(val[i].b, 1);
+        send_byte(val[i].g, 1);
+        send_byte(val[i].r, 1);
+    }
+
+    activate_row(row);
+    pulse_LAT();
+}
+
+void init_bank0() {
+    for (int i=7; i>=0; --i) {
+        uint8_t val = 0xff;
+        send_byte(val, 0);
+    }
+
+    pulse_LAT();
 }
 
 
