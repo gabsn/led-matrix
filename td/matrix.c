@@ -81,7 +81,7 @@ void matrix_init() {
 
     // Reseting DM163
     RST(0);
-    wait_for(200);
+    wait_for(500);
     RST(1);
 
     // Initializing

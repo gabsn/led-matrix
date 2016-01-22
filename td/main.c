@@ -13,7 +13,7 @@ int main() {
     uart_init();
     matrix_init();
 
-    activate_row(3); 
+    activate_row(0); 
 
     //rgb_color pixel;
     //pixel.b = 0xff;
