@@ -59,19 +59,19 @@ void matrix_init() {
     SIM_SCGC5 |= 0x1e00;
 
     // Set mux to GPIO
-    PA4 |= 0x100;
-    PA12 |= 0x100;
-    PA13 |= 0x100;
-    PB0 |= 0x100;
-    PB1 |= 0x100;
-    PB2 |= 0x100;
-    PC8 |= 0x100;
-    PC9 |= 0x100;
-    PD2 |= 0x100;
-    PD4 |= 0x100;
-    PD5 |= 0x100;
-    PD6 |= 0x100;
-    PD7 |= 0x100;
+    PA4 = 0x100;
+    PA12 = 0x100;
+    PA13 = 0x100;
+    PB0 = 0x100;
+    PB1 = 0x100;
+    PB2 = 0x100;
+    PC8 = 0x100;
+    PC9 = 0x100;
+    PD2 = 0x100;
+    PD4 = 0x100;
+    PD5 = 0x100;
+    PD6 = 0x100;
+    PD7 = 0x100;
 
     // Set Port Data Direction Register
     GPIOA_PDDR |= 0x3010;
@@ -79,7 +79,7 @@ void matrix_init() {
     GPIOC_PDDR |= 0x300;
     GPIOD_PDDR |= 0xf4;
 
-    // Reseting DM163
+    // Reseting DM163 (wait at least 100ms)
     RST(0);
     wait_for(500);
     RST(1);
@@ -157,6 +157,35 @@ void activate_row(int row) {
     }
 }
 
+void desactivate_row(int row) {
+    switch (row) {
+        case 0 :
+            ROW0(0);
+            break;
+        case 1 :
+            ROW1(0);
+            break;
+        case 2 :
+            ROW2(0);
+            break;
+        case 3 :
+            ROW3(0);
+            break;
+        case 4 :
+            ROW4(0);
+            break;
+        case 5 :
+            ROW5(0);
+            break;
+        case 6 :
+            ROW6(0);
+            break;
+        case 7 :
+            ROW7(0);
+            break;
+    }
+}
+
 void send_byte(uint8_t val, int bank) {
     int heavyBit, bit;
     if (bank == 0) {
@@ -186,7 +215,7 @@ void mat_set_row(int row, const rgb_color *val) {
 }
 
 void init_bank0() {
-    for (int i=7; i>=0; --i) {
+    for (int i=24; i>=0; --i) {
         uint8_t val = 0xff;
         send_byte(val, 0);
     }
@@ -194,6 +223,20 @@ void init_bank0() {
     pulse_LAT();
 }
 
-
-
+void test_pixels() {
+    const uint8_t delta = 2*255.0/8.0;
+    while (1) {
+        rgb_color row[8];
+        for (int i=0; i<8; ++i) {
+            for (int j=0; j<8; ++j) {
+                row[j].b = (i < 4) ? 255-i*delta : 0;
+                row[j].g = (i < 4) ? i*delta : 255 - (i-4)*delta;
+                row[j].r = (i < 4) ? 0 : (i-4)*delta;
+            }
+            mat_set_row(i, row);
+            desactivate_row((i == 0) ? 7 : i-1);
+            wait_for_m(2);
+        }
+    }
+}
 

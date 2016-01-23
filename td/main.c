@@ -1,4 +1,5 @@
 #include "include/clocks.h"
+
 #include "include/led.h"
 #include "include/uart.h"
 #include "include/matrix.h"
@@ -13,18 +14,7 @@ int main() {
     uart_init();
     matrix_init();
 
-    activate_row(0); 
-
-    //rgb_color pixel;
-    //pixel.b = 0xff;
-    //pixel.g = 0xff;
-    //pixel.r = 0xff;
-
-    //rgb_color row[8];
-    //for (int i=0; i<=8; ++i) 
-    //    row[i] = pixel;
-
-    //mat_set_row(1, row);
+    test_pixels();
 
     return 0;
 }
