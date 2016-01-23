@@ -215,7 +215,7 @@ void mat_set_row(int row, const rgb_color *val) {
 }
 
 void init_bank0() {
-    for (int i=24; i>=0; --i) {
+    for (int i=0; i<24; ++i) {
         uint8_t val = 0xff;
         send_byte(val, 0);
     }
@@ -235,8 +235,15 @@ void test_pixels() {
             }
             mat_set_row(i, row);
             desactivate_row((i == 0) ? 7 : i-1);
-            wait_for_m(2);
+            wait_for_m(1);
         }
     }
+}
+
+// Set luminance modulo 64
+void set_luminance(uint8_t val) {
+    for (int i=0; i<24; ++i)
+        send_byte(val, 0);
+    pulse_LAT();
 }
 

@@ -13,6 +13,7 @@ int main() {
     clocks_init();
     uart_init();
     matrix_init();
+    set_luminance(10);
 
     test_pixels();
 

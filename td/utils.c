@@ -8,7 +8,7 @@ void wait_for(int t) {
 
 // Time specified in micro seconds 
 void wait_for_m(int t) {
-    t *= 4;
+    t *= 5;
     for (int i=0; i<t; ++i)
         __asm__ volatile ("nop");
 }
