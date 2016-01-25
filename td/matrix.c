@@ -91,29 +91,25 @@ void matrix_init() {
     SDA(0);
     desactivate_rows(); 
     init_bank0();
-
-    // Wait at least for 100ms then continue
-    //wait_for(200);
-    //RST(1);
 }
 
 void pulse_SCK() {
     SCK(0);
     // We need to wait at least for 2ns in low state
-    wait_for(1);
+    wait_for_m(1);
     SCK(1);
     //We need to wait at least for 2ns in high state
-    wait_for(1);
+    wait_for_m(1);
     SCK(0);
 }
 
 void pulse_LAT() {
     LAT(1);
     // We need to wait at least for 25ns
-    wait_for(1);
+    wait_for_m(1);
     LAT(0);
     // We need to wait at least for 7ns
-    wait_for(1);
+    wait_for_m(1);
     LAT(1);
 }
 
@@ -235,7 +231,7 @@ void test_pixels() {
             }
             mat_set_row(i, row);
             desactivate_row((i == 0) ? 7 : i-1);
-            wait_for_m(1);
+            wait_for(100);
         }
     }
 }

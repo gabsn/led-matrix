@@ -5,10 +5,6 @@
 #include "include/matrix.h"
 #include "include/utils.h"
 
-#define size 10
-
-char s[size];
-
 int main() {
     clocks_init();
     uart_init();
