@@ -9,7 +9,7 @@ ASFLAGS = -g -mcpu=cortex-m0plus
 VPATH = ./bin ./include
 
 SRC = $(wildcard *.c) 
-OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o
+OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o image.o
 OBJ = $(OBJSRC) clocks.o
 EXE = main
 
@@ -24,6 +24,9 @@ $(EXE): $(OBJ)
 	$(CC) $(CFLAGS) -MM -MF $@ -MP $<
 
 crt0.o : ld_ram.lds
+
+image.o : image.raw
+	$(PREFIX)ld -r -b binary $< -o $@ 
 
 startgdbserver: 
 	JLinkGDBServer -if swd -device "MKL46Z256xxx4" -LocalhostOnly

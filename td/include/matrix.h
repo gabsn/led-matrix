@@ -20,5 +20,6 @@ void mat_set_row(int, const rgb_color *);
 void init_bank0();
 void test_pixels();
 void set_luminance(uint8_t);
+void display_image(rgb_color *);
 
 #endif 

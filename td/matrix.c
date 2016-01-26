@@ -221,18 +221,16 @@ void init_bank0() {
 
 void test_pixels() {
     const uint8_t delta = 2*255.0/8.0;
-    while (1) {
-        rgb_color row[8];
-        for (int i=0; i<8; ++i) {
-            for (int j=0; j<8; ++j) {
-                row[j].b = (i < 4) ? 255-i*delta : 0;
-                row[j].g = (i < 4) ? i*delta : 255 - (i-4)*delta;
-                row[j].r = (i < 4) ? 0 : (i-4)*delta;
-            }
-            mat_set_row(i, row);
-            desactivate_row((i == 0) ? 7 : i-1);
-            wait_for(100);
+    rgb_color row[8];
+    for (int i=0; i<8; ++i) {
+        for (int j=0; j<8; ++j) {
+            row[j].b = (i < 4) ? 255-i*delta : 0;
+            row[j].g = (i < 4) ? i*delta : 255 - (i-4)*delta;
+            row[j].r = (i < 4) ? 0 : (i-4)*delta;
         }
+        mat_set_row(i, row);
+        desactivate_row((i == 0) ? 7 : i-1);
+        wait_for(100);
     }
 }
 
@@ -243,3 +241,11 @@ void set_luminance(uint8_t val) {
     pulse_LAT();
 }
 
+void display_image(rgb_color * image_start){
+    for (int i=0; i<8; ++i) {
+        mat_set_row(i, &image_start[i*8]); 
+        desactivate_row((i == 0) ? 7 : i-1);
+        wait_for_m(100);
+    }
+}
+    

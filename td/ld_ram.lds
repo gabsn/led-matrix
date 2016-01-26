@@ -31,8 +31,5 @@ SECTIONS {
         *(.bss COMMON) 
         _bend = . ;
     } > ramh
-
-    .stack : {
-    } > raml
 }
 
