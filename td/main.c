@@ -14,7 +14,7 @@ int main() {
     set_luminance(10);
 
     while(1) {
-        display_image(&_binary___bin_image_raw_start); 
+        display_image((rgb_color *) &_binary___bin_image_raw_start); 
     }
 
     return 0;
