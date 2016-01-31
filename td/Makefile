@@ -9,7 +9,7 @@ ASFLAGS = -g -mcpu=cortex-m0plus
 VPATH = ./bin ./include
 
 SRC = $(wildcard *.c) 
-OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o image.o
+OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o image.o flash.o
 OBJ = $(OBJSRC) clocks.o
 EXE = main
 
