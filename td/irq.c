@@ -11,7 +11,8 @@
     while (1) {}\
 }
 
-MAKE_DEFAULT_HANDLER(_start);      
+extern uint8_t _stack_top, _start;
+
 MAKE_DEFAULT_HANDLER(NMI_Handler);      
 MAKE_DEFAULT_HANDLER(HardFault_Handler);      
 MAKE_DEFAULT_HANDLER(SVC_Handler);      
@@ -51,10 +52,10 @@ MAKE_DEFAULT_HANDLER(SLCD_IRQHandler);
 MAKE_DEFAULT_HANDLER(PCMA_IRQHandler);      
 MAKE_DEFAULT_HANDLER(PCMC_IRQHandler);      
 
-void * vector_table[] = {
+void * vector_table[] __attribute__ (( section (".vtor"))) = {
     // Stack and Reset Handler
-    //_stack_top,                /* Top of stack */
-    _start,                 /* Reset handler */
+    &_stack_top,                /* Top of stack */
+    &_start,                 /* Reset handler */
 
     // ARM internal exceptions
     NMI_Handler,            /* NMI handler */
@@ -120,4 +121,3 @@ void irq_enable(int irq_number) {
 void irq_disable(int irq_number) {
     NVIC_ICER = 1 << irq_number;
 }
-

@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "include/utils.h"
+#include "include/led.h"
 
 // set clock
 #define SIM_SCGC5 (*(volatile uint32_t *) 0x40048038)
@@ -21,36 +22,52 @@
 #define GPIOD_PCOR (*(volatile uint32_t *) 0x400ff0c8)
 #define GPIOE_PCOR (*(volatile uint32_t *) 0x400ff108)
 
+// set toggle
+#define GPIOD_PTOR (*(volatile uint32_t *) 0x400ff0cc)
+#define GPIOE_PTOR (*(volatile uint32_t *) 0x400ff10c)
+
+// declare constants
+#define c5 (0x1 << 5)
+#define c29 (0x1 << 29)
+
 void led_init() {
     // activation of D et E ports' clocks
-    SIM_SCGC5 |= (3 << 12);
+    SIM_SCGC5 |= 0x3000;
 
     // pins into gpio mode
-    PORTD_PCR5 = 0x00000100;
-    PORTE_PCR29 = 0x00000100;
+    PORTD_PCR5 = 0x100;
+    PORTE_PCR29 = 0x100;
 
     // pins into output mode
-    GPIOD_PDDR = 0x00000020;
-    GPIOE_PDDR = 0x20000000;
+    GPIOD_PDDR |= c5;
+    GPIOE_PDDR |= c29;
+
+    // light on the leds
+    led_d_on();
+    led_e_on();
 }
     
-void led_on() {
-    // light the leds
-    GPIOD_PCOR = 1;
-    GPIOE_PCOR = 1;
+void led_d_on() {
+    GPIOD_PCOR = c5;
 }
 
-void led_off() {
-    // light off the leds
-    GPIOD_PSOR = 1;
-    GPIOE_PSOR = 1;
+void led_e_on() {
+    GPIOE_PCOR = c29;
 }
 
-void led_toggle() {
-    led_on();
-    wait_for(500);
-    led_off();
-    wait_for(500);
+void led_d_off() {
+    GPIOD_PSOR |= c5;
 }
 
+void led_e_off() {
+    GPIOE_PSOR |= c29;
+}
+
+void led_d_toggle() {
+    GPIOD_PTOR |= c5; 
+}
+
+void led_e_toggle() {
+    GPIOE_PTOR |= c29;
+}
 
