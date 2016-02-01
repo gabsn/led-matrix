@@ -11,6 +11,7 @@
     while (1) {}\
 }
 
+MAKE_DEFAULT_HANDLER(_start);      
 MAKE_DEFAULT_HANDLER(NMI_Handler);      
 MAKE_DEFAULT_HANDLER(HardFault_Handler);      
 MAKE_DEFAULT_HANDLER(SVC_Handler);      
@@ -47,13 +48,13 @@ MAKE_DEFAULT_HANDLER(TSI0_IRQHandler);
 MAKE_DEFAULT_HANDLER(MCG_IRQHandler);       
 MAKE_DEFAULT_HANDLER(LPTMR0_IRQHandler);    
 MAKE_DEFAULT_HANDLER(SLCD_IRQHandler);      
-MAKE_DEFAULT_HANDLER(PCM0_IRQHandler);      
-MAKE_DEFAULT_HANDLER(PCM1_IRQHandler);      
+MAKE_DEFAULT_HANDLER(PCMA_IRQHandler);      
+MAKE_DEFAULT_HANDLER(PCMC_IRQHandler);      
 
 void * vector_table[] = {
     // Stack and Reset Handler
-    //&_stack,                /* Top of stack */
-    //_start,                 /* Reset handler */
+    //_stack_top,                /* Top of stack */
+    _start,                 /* Reset handler */
 
     // ARM internal exceptions
     NMI_Handler,            /* NMI handler */
@@ -102,8 +103,8 @@ void * vector_table[] = {
     MCG_IRQHandler,         /* MCG interrupt */
     LPTMR0_IRQHandler,      /* LPTMR0 interrupt */
     SLCD_IRQHandler,        /* SLCD interrupt */
-    PCM0_IRQHandler,        /* PCM0 interrupt */
-    PCM1_IRQHandler,        /* PCM1 interrupt */
+    PCMA_IRQHandler,        /* PCMA interrupt */
+    PCMC_IRQHandler,        /* PCMC interrupt */
 };
 
 void irq_init() {

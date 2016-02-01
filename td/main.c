@@ -4,6 +4,7 @@
 #include "include/matrix.h"
 #include "include/utils.h"
 #include "include/irq.h"
+#include "include/buttons.h"
 
 extern uint8_t _binary___bin_image_raw_start;
 
@@ -13,9 +14,7 @@ int main() {
     matrix_init();
     set_luminance(10);
     irq_init();
-
-    while (1)
-        test_pixels();
+    button_init();
 
     return 0;
 }

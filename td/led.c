@@ -23,7 +23,7 @@
 
 void led_init() {
     // activation of D et E ports' clocks
-    SIM_SCGC5 = SIM_SCGC5 | (3 << 12);
+    SIM_SCGC5 |= (3 << 12);
 
     // pins into gpio mode
     PORTD_PCR5 = 0x00000100;
