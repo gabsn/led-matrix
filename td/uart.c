@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "include/irq.h"
+
 #define SIM_SOPT2 (*(volatile uint32_t * const) 0x40048004) 
 #define SIM_SOPT5 (*(volatile uint32_t * const) 0x40048010) 
 #define SIM_SCGC4 (*(volatile uint32_t * const) 0x40048034) 
@@ -16,43 +18,9 @@
 #define PORTA_PCR1 (*(volatile uint32_t * const) 0x40049004)
 #define PORTA_PCR2 (*(volatile uint32_t * const) 0x40049008)
 
+extern uint8_t _binary___bin_image_raw_start;
+
 void uart_init() {
-    // Select the clock source for the UART0
-    SIM_SOPT2 |= 0x4000000;
-    SIM_SCGC4 |= 0x400;
-
-    // Set clock to 24MHz
-    SIM_SOPT2 |= 1 << 16;
-
-    // Disable UART0
-    UART0_C2 &= ~0xC;
-    
-    // Enable portA's clock 
-    SIM_SCGC5 |= 0x200;
-
-    // Set mux to RX et TX
-    PORTA_PCR1 |= 0x200; 
-    PORTA_PCR2 |= 0x200;  
-
-    // Set oversampling to 29 times
-    UART0_C4 |= 29;
-
-    // Set baud rate
-    UART0_BDL = 7;
-    UART0_BDH = 0; 
-
-    // Set UART to 8 bits + disable parity
-    UART0_C1 &= 0xed;
-    UART0_C4 &= 0xdf;
-
-    // Active RX and TX
-    SIM_SOPT5 &= 0xfffffff8; 
-
-    // Enable UART0
-    UART0_C2 |= 0xc;
-}
-
-void uart_init2() {
     // Select the clock source for the UART0
     SIM_SOPT2 |= 0x4000000;
     SIM_SCGC4 |= 0x400;
@@ -85,6 +53,10 @@ void uart_init2() {
 
     // Enable UART0
     UART0_C2 = 0xc;
+    
+    // Enable reciever interrupt
+    UART0_C2 |= (1 << 5);
+    irq_enable(12);
 }
 
 void uart_putchar(char c) {
@@ -120,3 +92,16 @@ void uart_gets(char *s, int size) {
     return;
 }
 
+void UART0_IRQHandler() {
+    unsigned char c = uart_getchar();
+    if (c == 0xff) {
+        uint8_t * dst;
+        for (dst = &_binary___bin_image_raw_start; dst < (&_binary___bin_image_raw_start + 192); ++dst) {
+            *dst = uart_getchar();
+        }
+    }
+    while (1) {}
+}
+
+
+    

@@ -11,7 +11,7 @@ extern uint8_t _binary___bin_image_raw_start;
 int main() {
     clocks_init();
     led_init();
-    uart_init2();
+    uart_init();
     matrix_init();
     irq_init();
     button_init();
@@ -24,19 +24,6 @@ int main() {
     while (1) {
         uart_putchar(uart_getchar());
     }
-
-    //char s[5];
-    //uart_gets(s,5);
-    //uart_puts(s);
-
-    //while (1) {
-    //    int size = (int) uart_getchar();
-    //    wait_for(500);
-    //    char s[size];
-    //    uart_gets(s, size); 
-    //    wait_for(1000);
-    //    uart_puts(s);
-    //}
 
     return 0;
 }
