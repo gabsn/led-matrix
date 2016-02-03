@@ -35,13 +35,12 @@ void uart_init() {
     PORTA_PCR2 |= 0x200;  
 
     // Set oversampling to 29 times
-    UART0_C4 |= 28;
+    UART0_C4 |= 29;
 
     // Set baud rate
     UART0_BDL = 7;
     UART0_BDH = 0; 
 
-    UART0_BDH = 0; 
     // Set UART to 8 bits + disable parity
     UART0_C1 &= 0xed;
     UART0_C4 &= 0xdf;
@@ -53,6 +52,41 @@ void uart_init() {
     UART0_C2 |= 0xc;
 }
 
+void uart_init2() {
+    // Select the clock source for the UART0
+    SIM_SOPT2 |= 0x4000000;
+    SIM_SCGC4 |= 0x400;
+
+    // Set clock to 24MHz
+    SIM_SOPT2 |= 1 << 16;
+
+    // Disable UART0
+    UART0_C2 &= ~0xC;
+    
+    // Enable portA's clock 
+    SIM_SCGC5 |= 0x200;
+
+    // Set mux to RX et TX
+    PORTA_PCR1 |= 0x200; 
+    PORTA_PCR2 |= 0x200;  
+
+    // Set oversampling to 24
+    UART0_C4 |= 24;
+
+    // Set baud rate (BDL = 25)
+    UART0_BDL = 25;
+    UART0_BDH = 0; 
+
+    // Set UART to 8 bits + disable parity
+    UART0_C1 &= 0xed;
+    UART0_C4 &= 0xdf;
+
+    // Active RX and TX
+    SIM_SOPT5 &= 0xfffffff8; 
+
+    // Enable UART0
+    UART0_C2 |= 0xc;
+}
 
 void uart_putchar(char c) {
     while (!(UART0_S1 & (1 << 7)) || !(UART0_S1 & (1 << 6))) {}

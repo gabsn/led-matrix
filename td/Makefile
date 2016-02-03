@@ -35,7 +35,7 @@ gdb:
 	$(PREFIX)$@ $(EXE) 
 
 clean:
-	rm -rf $(OBJSRC) $(EXE) 
+	rm -rf $(OBJSRC) $(EXE) a.out
 
 
 
