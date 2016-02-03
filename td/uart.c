@@ -61,31 +61,30 @@ void uart_init2() {
     SIM_SOPT2 |= 1 << 16;
 
     // Disable UART0
-    UART0_C2 &= ~0xC;
+    UART0_C2 = 0;
     
     // Enable portA's clock 
     SIM_SCGC5 |= 0x200;
 
     // Set mux to RX et TX
-    PORTA_PCR1 |= 0x200; 
-    PORTA_PCR2 |= 0x200;  
+    PORTA_PCR1 = 0x200; 
+    PORTA_PCR2 = 0x200;  
 
     // Set oversampling to 24
-    UART0_C4 |= 24;
+    UART0_C4 = 24;
 
     // Set baud rate (BDL = 25)
     UART0_BDL = 25;
     UART0_BDH = 0; 
 
     // Set UART to 8 bits + disable parity
-    UART0_C1 &= 0xed;
-    UART0_C4 &= 0xdf;
+    UART0_C1 = 0;
 
     // Active RX and TX
     SIM_SOPT5 &= 0xfffffff8; 
 
     // Enable UART0
-    UART0_C2 |= 0xc;
+    UART0_C2 = 0xc;
 }
 
 void uart_putchar(char c) {
@@ -120,5 +119,4 @@ void uart_gets(char *s, int size) {
     *s = '\0';
     return;
 }
-
 
