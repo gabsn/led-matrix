@@ -5,10 +5,8 @@
 
 // set clock
 #define SIM_SCGC5 (*(volatile uint32_t *) 0x40048038)
-
 // pin controller
 #define PORTC_PCR3 (*(volatile uint32_t *) 0x4004b00c)
-
 // set input/output
 #define GPIO_PDDR (*(volatile uint32_t *) 0x400ff094)
 
@@ -18,7 +16,7 @@ void button_init() {
     SIM_SCGC5 |= (1 << 11);
 
     // set pc3 on GPIO
-    PORTC_PCR3 |= (1 << 8);
+    PORTC_PCR3 = (1 << 8);
     PORTC_PCR3 &= ~((1 << 9) | (1 << 10));
     
     // set pc3 on input

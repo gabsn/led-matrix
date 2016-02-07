@@ -14,25 +14,20 @@ SECTIONS {
         *(.flash_config)
     } > flash_config
 
-    .vtor : {
+    .vtor ORIGIN(ramh) : {
         irq.o(.vtor)
     } > ramh
 
     .text : {
         *(.text) 
-        _etext = . ;
     } > ramh
 
     .rodata : { 
-        _rodata = . ;
         *(.rodata) 
-        _erodata = . ;
     } > ramh
 
     .data : { 
-        _data = . ;
         *(.data) 
-        _edata = . ;
     } > ramh
     
     .bss : { 

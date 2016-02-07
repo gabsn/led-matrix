@@ -28,15 +28,21 @@ void uart_init() {
     // Set clock to 24MHz
     SIM_SOPT2 |= 1 << 16;
 
-    // Disable UART0
-    UART0_C2 = 0;
-    
     // Enable portA's clock 
     SIM_SCGC5 |= 0x200;
 
     // Set mux to RX et TX
     PORTA_PCR1 = 0x200; 
     PORTA_PCR2 = 0x200;  
+
+    // Disable UART0
+    UART0_C2 = 0;
+
+    // Clear receive data register buffer
+    UART0_D;
+
+    // Reset of UART0 status register
+    UART0_S1 = 0xff;
 
     // Set oversampling to 24
     UART0_C4 = 24;
@@ -48,7 +54,7 @@ void uart_init() {
     // Set UART to 8 bits + disable parity
     UART0_C1 = 0;
 
-    // Active RX and TX
+    // Set receive and transmit data source respectively on UART0_RX and UART0_TX pin 
     SIM_SOPT5 &= 0xfffffff8; 
 
     // Enable UART0
@@ -60,13 +66,12 @@ void uart_init() {
 }
 
 void uart_putchar(char c) {
-    while (!(UART0_S1 & (1 << 7)) || !(UART0_S1 & (1 << 6))) {}
+    while(!(UART0_S1 & (1 << 7)) && !(UART0_S1 & (1 << 6))) {}
     UART0_D = c;
 }
 
 unsigned char uart_getchar() {
-    UART0_S1 &= 0x8;
-    while (!(UART0_S1 & 0x20)) {}
+    while (!(UART0_S1 & (1 << 5))) {}
     return UART0_D;
 }
 
@@ -79,7 +84,7 @@ void uart_puts(const char *s) {
 void uart_gets(char *s, int size) {
     int i;
     unsigned char c;
-    for (i=0; i<size; ++i) {
+    for (i=0; i<size-1; ++i) {
         c = uart_getchar();
         if (c == '\r') {
             *s = '\0';

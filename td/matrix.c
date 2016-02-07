@@ -93,17 +93,17 @@ void matrix_init() {
     init_bank0();
 }
 
-void pulse_SCK() {
+static void pulse_SCK() {
     SCK(0);
     // We need to wait at least for 2ns in low state
     wait_for_m(1);
     SCK(1);
-    //We need to wait at least for 2ns in high state
+    // We need to wait at least for 2ns in high state
     wait_for_m(1);
     SCK(0);
 }
 
-void pulse_LAT() {
+static void pulse_LAT() {
     LAT(1);
     // We need to wait at least for 25ns
     wait_for_m(1);
@@ -183,16 +183,16 @@ void desactivate_row(int row) {
 }
 
 void send_byte(uint8_t val, int bank) {
-    int heavyBit, bit;
+    int8_t heavy_bit, bit;
     if (bank == 0) {
         SB(0);
-        heavyBit = 5;
+        heavy_bit = 5;
     } else {
         SB(1);
-        heavyBit = 7;
+        heavy_bit = 7;
     }
 
-    for (int i = heavyBit; i >= 0; --i) {
+    for (int i = heavy_bit; i >= 0; --i) {
         bit = val & (1 << i);
         SDA(bit);
         pulse_SCK();
@@ -234,8 +234,8 @@ void test_pixels() {
     }
 }
 
-// Set luminance modulo 64
-void set_luminance(uint8_t val) {
+// Set brightness modulo 64
+void set_brightness(uint8_t val) {
     for (int i=0; i<24; ++i)
         send_byte(val, 0);
     pulse_LAT();

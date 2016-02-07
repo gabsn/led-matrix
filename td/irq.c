@@ -52,7 +52,7 @@ MAKE_DEFAULT_HANDLER(SLCD_IRQHandler);
 MAKE_DEFAULT_HANDLER(PCMA_IRQHandler);      
 MAKE_DEFAULT_HANDLER(PCMC_IRQHandler);      
 
-void * vector_table[] __attribute__ (( section (".vtor"))) = {
+static void * vector_table[] __attribute__ (( section (".vtor"))) = {
     // Stack and Reset Handler
     &_stack_top,                /* Top of stack */
     &_start,                 /* Reset handler */

@@ -56,18 +56,18 @@ void led_e_on() {
 }
 
 void led_d_off() {
-    GPIOD_PSOR |= c5;
+    GPIOD_PSOR = c5;
 }
 
 void led_e_off() {
-    GPIOE_PSOR |= c29;
+    GPIOE_PSOR = c29;
 }
 
 void led_d_toggle() {
-    GPIOD_PTOR |= c5; 
+    GPIOD_PTOR = c5; 
 }
 
 void led_e_toggle() {
-    GPIOE_PTOR |= c29;
+    GPIOE_PTOR = c29;
 }
 

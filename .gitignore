@@ -1,3 +1,5 @@
 *.o
+*.d
+*.swp
 main
-*.pdf
+a.out
