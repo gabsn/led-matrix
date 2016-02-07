@@ -66,7 +66,7 @@ void uart_init() {
 }
 
 void uart_putchar(char c) {
-    while(!(UART0_S1 & (1 << 7)) && !(UART0_S1 & (1 << 6))) {}
+    while(!(UART0_S1 & (1 << 6))) {}
     UART0_D = c;
 }
 
@@ -105,8 +105,4 @@ void UART0_IRQHandler() {
             *dst = uart_getchar();
         }
     }
-    while (1) {}
 }
-
-
-    

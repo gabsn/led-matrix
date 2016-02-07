@@ -34,7 +34,7 @@ void button_init() {
 
 void PCMC_IRQHandler() {
    PORTC_PCR3 |= (1 << 24); 
-   led_e_toggle();
+   led_red_toggle();
 }
 
 

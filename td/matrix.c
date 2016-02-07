@@ -96,20 +96,20 @@ void matrix_init() {
 static void pulse_SCK() {
     SCK(0);
     // We need to wait at least for 2ns in low state
-    wait_for_m(1);
+    __asm__ volatile ("nop");
     SCK(1);
     // We need to wait at least for 2ns in high state
-    wait_for_m(1);
+    __asm__ volatile ("nop");
     SCK(0);
 }
 
 static void pulse_LAT() {
     LAT(1);
     // We need to wait at least for 25ns
-    wait_for_m(1);
+    __asm__ volatile ("nop");
     LAT(0);
     // We need to wait at least for 7ns
-    wait_for_m(1);
+    __asm__ volatile ("nop");
     LAT(1);
 }
 
@@ -183,21 +183,24 @@ void desactivate_row(int row) {
 }
 
 void send_byte(uint8_t val, int bank) {
-    int8_t heavy_bit, bit;
-    if (bank == 0) {
-        SB(0);
-        heavy_bit = 5;
-    } else {
-        SB(1);
-        heavy_bit = 7;
-    }
-
-    for (int i = heavy_bit; i >= 0; --i) {
+    int8_t bit;
+    bank == 0 ? SB(0) : SB(1);
+    for (int i = 7; i >= 0; --i) {
         bit = val & (1 << i);
         SDA(bit);
         pulse_SCK();
     }
 }
+
+void send_val_to_bank0(uint8_t val){
+    int8_t bit;
+    for (int i=5; i>=0; --i) {
+        bit = val & (1 << i);
+        SDA(bit);
+        pulse_SCK();
+    }
+}
+
 
 void mat_set_row(int row, const rgb_color *val) {
     for (int i=7; i>=0; --i) {
@@ -205,17 +208,15 @@ void mat_set_row(int row, const rgb_color *val) {
         send_byte(val[i].g, 1);
         send_byte(val[i].r, 1);
     }
-
     activate_row(row);
     pulse_LAT();
 }
 
 void init_bank0() {
-    for (int i=0; i<24; ++i) {
+    for (int i=0; i<18; ++i) {
         uint8_t val = 0xff;
         send_byte(val, 0);
     }
-
     pulse_LAT();
 }
 
@@ -234,13 +235,6 @@ void test_pixels() {
     }
 }
 
-// Set brightness modulo 64
-void set_brightness(uint8_t val) {
-    for (int i=0; i<24; ++i)
-        send_byte(val, 0);
-    pulse_LAT();
-}
-
 void display_image(rgb_color * image_start){
     for (int i=0; i<8; ++i) {
         mat_set_row(i, &image_start[i*8]); 
@@ -248,4 +242,12 @@ void display_image(rgb_color * image_start){
         wait_for_m(100);
     }
 }
-    
+
+// Set brightness modulo 64
+void set_brightness(uint8_t val) {
+    for (int i=0; i<24; ++i)
+        send_val_to_bank0(val);
+    pulse_LAT();
+}
+
+   

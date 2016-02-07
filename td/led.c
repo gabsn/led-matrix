@@ -43,31 +43,31 @@ void led_init() {
     GPIOE_PDDR |= c29;
 
     // light on the leds
-    led_d_on();
-    led_e_on();
+    led_green_on();
+    led_red_on();
 }
     
-void led_d_on() {
+void led_green_on() {
     GPIOD_PCOR = c5;
 }
 
-void led_e_on() {
+void led_red_on() {
     GPIOE_PCOR = c29;
 }
 
-void led_d_off() {
+void led_green_off() {
     GPIOD_PSOR = c5;
 }
 
-void led_e_off() {
+void led_red_off() {
     GPIOE_PSOR = c29;
 }
 
-void led_d_toggle() {
+void led_green_toggle() {
     GPIOD_PTOR = c5; 
 }
 
-void led_e_toggle() {
+void led_red_toggle() {
     GPIOE_PTOR = c29;
 }
 

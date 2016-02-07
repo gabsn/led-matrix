@@ -17,27 +17,22 @@ OBJ = $(OBJSRC) clocks.o
 DEPS := $(subst .o,.d, $(OBJ))
 EXE = main
 
-### Dependencies ###
+### Building rules ###
 all: $(EXE)
 	@echo "--> Project built."
-
-crt0.o irq.o init.o: $(LDSRC) 
--include $(DEPS)
-
-### Building rules ###
 $(EXE): $(OBJ)
-	$(LINK.o) $^ -o $@
-
 image.o : image.raw
 	$(PREFIX)ld -r -b binary $< -o $@ 
+
+### Dependencies ###
+-include $(DEPS)
+crt0.o irq.o init.o: $(LDSRC) 
 
 ### Personnal rules ###
 startgdbserver: 
 	JLinkGDBServer -if swd -device "MKL46Z256xxx4" -LocalhostOnly
-
 gdb:
 	$(PREFIX)$@ $(EXE) 
-
 clean:
 	rm -rf $(EXE) $(OBJSRC) $(DEPS)
 	@echo "--> Clean completed."

@@ -6,6 +6,7 @@ mon halt
 define split
     layout split
     layout asm
+    layout src
     layout regs
     focus cmd
 end
@@ -13,7 +14,8 @@ end
 # Define macro to reset the cpu
 define flash
     mon reset
+    mon reset
+    mon reset
     load
-    b main
+    b UART0_IRQHandler
 end
-
