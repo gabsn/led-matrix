@@ -80,6 +80,9 @@ void uart_putchar(char c) {
 
 unsigned char uart_getchar() {
     while (!(UART0_S1 & (1 << 5))) {}
+    // Detect framing and overrun errors
+    if ((UART0_S1 & (1 << 1)) || (UART0_S1 & (1 << 3)))
+        error = 1;
     return UART0_D;
 }
 
@@ -106,16 +109,11 @@ void uart_gets(char *s, int size) {
 }
 
 void UART0_IRQHandler() {
-    // Detect framing and overrun errors
-    if ((UART0_S1 & (1 << 1)) || (UART0_S1 & (1 << 3))) {
-        error = 1;
+    unsigned char c = uart_getchar();
+    if (c == 0xff) {
+        image_byte = &_binary___bin_image_raw_start; 
+        error = 0;
     } else {
-        unsigned char c = uart_getchar();
-        if (c == 0xff) {
-            image_byte = &_binary___bin_image_raw_start; 
-            error = 0;
-        } else {
-            *image_byte++ = c;
-        }
+        *image_byte++ = c;
     }
 }

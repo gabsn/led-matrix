@@ -237,12 +237,12 @@ void test_pixels() {
     }
 }
 
+// Lasts 1.92ms
 void display_image(rgb_color * image_start){
     if (!error) {
         for (int i=0; i<8; ++i) {
             mat_set_row(i, &image_start[i*8]); 
             desactivate_row((i == 0) ? 7 : i-1);
-            wait_for_m(100);
         }
     }
 }
