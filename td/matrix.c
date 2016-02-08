@@ -54,6 +54,8 @@
 #define GPIOC_PCOR (*(volatile uint32_t * const) 0x400ff088)
 #define GPIOD_PCOR (*(volatile uint32_t * const) 0x400ff0c8)
 
+extern uint8_t error;
+
 void matrix_init() {
     // Set clock for port A, B, C and D
     SIM_SCGC5 |= 0x1e00;
@@ -236,10 +238,12 @@ void test_pixels() {
 }
 
 void display_image(rgb_color * image_start){
-    for (int i=0; i<8; ++i) {
-        mat_set_row(i, &image_start[i*8]); 
-        desactivate_row((i == 0) ? 7 : i-1);
-        wait_for_m(100);
+    if (!error) {
+        for (int i=0; i<8; ++i) {
+            mat_set_row(i, &image_start[i*8]); 
+            desactivate_row((i == 0) ? 7 : i-1);
+            wait_for_m(100);
+        }
     }
 }
 
@@ -250,4 +254,4 @@ void set_brightness(uint8_t val) {
     pulse_LAT();
 }
 
-   
+  

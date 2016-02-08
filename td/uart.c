@@ -9,6 +9,7 @@
 
 #define UART0_C1 (*(volatile uint8_t * const) 0x4006a002)
 #define UART0_C2 (*(volatile uint8_t * const) 0x4006a003)
+#define UART0_C3 (*(volatile uint8_t * const) 0x4006a006)
 #define UART0_C4 (*(volatile uint8_t * const) 0x4006a00a) 
 #define UART0_BDH (*(volatile uint8_t * const) 0x4006a000) 
 #define UART0_BDL (*(volatile uint8_t * const) 0x4006a001) 
@@ -21,6 +22,8 @@
 
 extern uint8_t _binary___bin_image_raw_start;
 extern uint8_t * image_byte;
+
+uint8_t error = 0;
 
 void uart_init() {
     // Select the clock source for the UART0
@@ -50,12 +53,11 @@ void uart_init() {
     // Clear all flags
     UART0_S1 = 0x1f;
     UART0_S2 = 0xc0;
+    UART0_C1 = 0;
+    UART0_C3 = 0;
 
     // Clear receive data register buffer
     UART0_D;
-
-    // Set UART to 8 bits + disable parity
-    UART0_C1 = 0;
 
     // Set receive and transmit data source respectively on UART0_RX and UART0_TX pin 
     SIM_SOPT5 &= 0xfffffff8; 
@@ -63,10 +65,12 @@ void uart_init() {
     // Enable UART0
     UART0_C2 = ((1 << 2) | (1 << 3));
 
+    // Enable overrun interrupt and framing error interrupt
+    UART0_C3 |= ((1 << 1) | (1 << 3)); 
+
     // Enable reciever interrupt
     UART0_C2 |= (1 << 5);
     irq_enable(12);
-
 }
 
 void uart_putchar(char c) {
@@ -102,11 +106,17 @@ void uart_gets(char *s, int size) {
 }
 
 void UART0_IRQHandler() {
-    unsigned char c = uart_getchar();
-    if (c == 0xff) {
-       image_byte = &_binary___bin_image_raw_start; 
+    // Detect framing and overrun errors
+    if ((UART0_S1 & (1 << 1)) || (UART0_S1 & (1 << 3))) {
+        error = 1;
+        while (1) {}
     } else {
-        *image_byte = c;
-        image_byte++;
+        unsigned char c = uart_getchar();
+        if (c == 0xff) {
+            image_byte = &_binary___bin_image_raw_start; 
+            error = 0;
+        } else {
+            *image_byte++ = c;
+        }
     }
 }
