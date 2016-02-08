@@ -17,5 +17,5 @@ define flash
     mon reset
     mon reset
     load
-    b UART0_IRQHandler
+    #b UART0_IRQHandler
 end

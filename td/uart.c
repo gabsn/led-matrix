@@ -20,6 +20,7 @@
 #define PORTA_PCR2 (*(volatile uint32_t * const) 0x40049008)
 
 extern uint8_t _binary___bin_image_raw_start;
+extern uint8_t * image_byte;
 
 void uart_init() {
     // Select the clock source for the UART0
@@ -56,15 +57,16 @@ void uart_init() {
     // Set UART to 8 bits + disable parity
     UART0_C1 = 0;
 
-    // Enable reciever interrupt
-    UART0_C2 |= (1 << 5);
-    irq_enable(12);
-
     // Set receive and transmit data source respectively on UART0_RX and UART0_TX pin 
     SIM_SOPT5 &= 0xfffffff8; 
 
     // Enable UART0
     UART0_C2 = ((1 << 2) | (1 << 3));
+
+    // Enable reciever interrupt
+    UART0_C2 |= (1 << 5);
+    irq_enable(12);
+
 }
 
 void uart_putchar(char c) {
@@ -102,9 +104,9 @@ void uart_gets(char *s, int size) {
 void UART0_IRQHandler() {
     unsigned char c = uart_getchar();
     if (c == 0xff) {
-        uint8_t * dst;
-        for (dst = &_binary___bin_image_raw_start; dst < (&_binary___bin_image_raw_start + 192); ++dst) {
-            *dst = uart_getchar();
-        }
+       image_byte = &_binary___bin_image_raw_start; 
+    } else {
+        *image_byte = c;
+        image_byte++;
     }
 }

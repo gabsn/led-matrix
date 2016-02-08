@@ -7,6 +7,7 @@
 #include "include/buttons.h"
 
 extern uint8_t _binary___bin_image_raw_start;
+uint8_t * image_byte = &_binary___bin_image_raw_start;
 
 int main() {
     clocks_init();
