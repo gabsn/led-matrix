@@ -109,7 +109,6 @@ void UART0_IRQHandler() {
     // Detect framing and overrun errors
     if ((UART0_S1 & (1 << 1)) || (UART0_S1 & (1 << 3))) {
         error = 1;
-        while (1) {}
     } else {
         unsigned char c = uart_getchar();
         if (c == 0xff) {
