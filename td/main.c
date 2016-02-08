@@ -5,6 +5,7 @@
 #include "include/utils.h"
 #include "include/irq.h"
 #include "include/buttons.h"
+#include "include/pit.h"
 
 extern uint8_t _binary___bin_image_raw_start;
 uint8_t * image_byte = &_binary___bin_image_raw_start;
@@ -16,6 +17,7 @@ int main() {
     matrix_init();
     irq_init();
     button_init();
+    pit_init();
     set_brightness(10);
 
     while (1) {
