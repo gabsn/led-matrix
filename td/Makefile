@@ -17,6 +17,7 @@ OBJ = $(OBJSRC) clocks.o
 DEPS := $(subst .o,.d, $(OBJ))
 EXE = main
 
+
 ### Building rules ###
 all: $(EXE)
 	@echo "--> Project built."

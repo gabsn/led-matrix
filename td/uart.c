@@ -13,6 +13,7 @@
 #define UART0_BDH (*(volatile uint8_t * const) 0x4006a000) 
 #define UART0_BDL (*(volatile uint8_t * const) 0x4006a001) 
 #define UART0_S1 (*(volatile uint8_t * const) 0x4006a004) 
+#define UART0_S2 (*(volatile uint8_t * const) 0x4006a005) 
 #define UART0_D (*(volatile uint8_t * const) 0x4006a007) 
 
 #define PORTA_PCR1 (*(volatile uint32_t * const) 0x40049004)
@@ -38,12 +39,6 @@ void uart_init() {
     // Disable UART0
     UART0_C2 = 0;
 
-    // Clear receive data register buffer
-    UART0_D;
-
-    // Reset of UART0 status register
-    UART0_S1 = 0xff;
-
     // Set oversampling to 24
     UART0_C4 = 24;
 
@@ -51,18 +46,25 @@ void uart_init() {
     UART0_BDL = 25;
     UART0_BDH = 0; 
 
+    // Clear all flags
+    UART0_S1 = 0x1f;
+    UART0_S2 = 0xc0;
+
+    // Clear receive data register buffer
+    UART0_D;
+
     // Set UART to 8 bits + disable parity
     UART0_C1 = 0;
+
+    // Enable reciever interrupt
+    UART0_C2 |= (1 << 5);
+    irq_enable(12);
 
     // Set receive and transmit data source respectively on UART0_RX and UART0_TX pin 
     SIM_SOPT5 &= 0xfffffff8; 
 
     // Enable UART0
-    UART0_C2 = 0xc;
-    
-    // Enable reciever interrupt
-    UART0_C2 |= (1 << 5);
-    irq_enable(12);
+    UART0_C2 = ((1 << 2) | (1 << 3));
 }
 
 void uart_putchar(char c) {
