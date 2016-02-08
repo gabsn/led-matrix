@@ -21,8 +21,8 @@
 #define PORTA_PCR2 (*(volatile uint32_t * const) 0x40049008)
 
 extern uint8_t _binary___bin_image_raw_start;
-extern uint8_t * image_byte;
 
+uint8_t * image_byte = &_binary___bin_image_raw_start;
 uint8_t error = 0;
 
 void uart_init() {
