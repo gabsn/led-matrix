@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 #include "include/irq.h"
-#include "include/led.h"
+#include "include/matrix.h"
 
 #define SIM_SCGC6 (*(volatile uint32_t *) 0x4004803c)
 #define PIT_MCR (*(volatile uint32_t *) 0x40037000)
@@ -11,6 +11,8 @@
 #define PIT_CVAL0 (*(volatile uint32_t *) 0x40037104)
 #define PIT_TCTRL0 (*(volatile uint32_t *) 0x40037108)
 #define PIT_TFLG0 (*(volatile uint32_t *) 0x4003710c)
+
+extern uint8_t _binary___bin_image_raw_start;
 
 void pit_init() {
     // Enable PIT's clock
@@ -27,7 +29,7 @@ void pit_init() {
     PIT_MCR = 0;
 
     // Set timer start value to 1s
-    PIT_LDVAL0 = 24e6;
+    PIT_LDVAL0 = 24.0e6/70.0;
 
     // Enable timer interrupt and timer0
     PIT_TCTRL0 |= 0x3;
@@ -35,6 +37,6 @@ void pit_init() {
 }
 
 void PIT_IRQHandler() {
-    led_red_toggle();
-    PIT_TFLG0 = 0x1;
+    display_image((rgb_color *) &_binary___bin_image_raw_start);
+    PIT_TFLG0 = 0x1; // Acquittement de l'interruption
 }
