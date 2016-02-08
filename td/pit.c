@@ -29,7 +29,7 @@ void pit_init() {
     PIT_MCR = 0;
 
     // Set timer start value to 1s
-    PIT_LDVAL0 = 24.0e6/70.0;
+    PIT_LDVAL0 = (int32_t) (24.0e6/70.0);
 
     // Enable timer interrupt and timer0
     PIT_TCTRL0 |= 0x3;
@@ -37,6 +37,6 @@ void pit_init() {
 }
 
 void PIT_IRQHandler() {
-    display_image((rgb_color *) &_binary___bin_image_raw_start);
     PIT_TFLG0 = 0x1; // Acquittement de l'interruption
+    display_image((rgb_color *) &_binary___bin_image_raw_start);
 }
