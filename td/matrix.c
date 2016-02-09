@@ -98,20 +98,16 @@ void matrix_init() {
 static void pulse_SCK() {
     SCK(0);
     // We need to wait at least for 2ns in low state
-    __asm__ volatile ("nop");
     SCK(1);
     // We need to wait at least for 2ns in high state
-    __asm__ volatile ("nop");
     SCK(0);
 }
 
 static void pulse_LAT() {
     LAT(1);
     // We need to wait at least for 25ns
-    __asm__ volatile ("nop");
     LAT(0);
     // We need to wait at least for 7ns
-    __asm__ volatile ("nop");
     LAT(1);
 }
 
@@ -251,7 +247,6 @@ void display_image_optimized(rgb_color * image_start, uint32_t duration){
             for (int i=0; i<8; ++i) {
                 mat_set_row(i, &image_start[i*8]); 
             }
-            desactivate_rows();
         }
     }
 }

@@ -13,7 +13,7 @@
 #define PIT_TCTRL0 (*(volatile uint32_t *) 0x40037108)
 #define PIT_TFLG0 (*(volatile uint32_t *) 0x4003710c)
 
-#define TIMES_PER_SEC 70
+#define TIMES_PER_SEC 12
 
 extern uint8_t _binary___bin_image_raw_start;
 uint32_t duration = 24e6/TIMES_PER_SEC;

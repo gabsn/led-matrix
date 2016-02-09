@@ -17,7 +17,7 @@ int main() {
     irq_init();
     button_init();
     pit_init();
-    set_brightness(10);
+    set_brightness(50);
 
     return 0;
 }
