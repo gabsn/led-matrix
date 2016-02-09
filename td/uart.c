@@ -79,6 +79,7 @@ void uart_putchar(char c) {
 }
 
 unsigned char uart_getchar() {
+    UART0_S1 = 0x1f;
     while (!(UART0_S1 & (1 << 5))) {}
     // Detect framing and overrun errors
     if ((UART0_S1 & (1 << 1)) || (UART0_S1 & (1 << 3)))

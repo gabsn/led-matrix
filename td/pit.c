@@ -13,7 +13,10 @@
 #define PIT_TCTRL0 (*(volatile uint32_t *) 0x40037108)
 #define PIT_TFLG0 (*(volatile uint32_t *) 0x4003710c)
 
+#define TIMES_PER_SEC 70
+
 extern uint8_t _binary___bin_image_raw_start;
+uint32_t duration = 24e6/TIMES_PER_SEC;
 
 void pit_init() {
     // Enable PIT's clock
@@ -29,8 +32,9 @@ void pit_init() {
     // Turn on PIT
     PIT_MCR = 0;
 
-    // Set timer start value to 1s
-    PIT_LDVAL0 = 24e6/13;
+    // Set timer start value
+    PIT_LDVAL0 = duration;
+    duration /= 2;
 
     // Enable timer interrupt and timer0
     PIT_TCTRL0 |= 0x3;
@@ -39,6 +43,7 @@ void pit_init() {
 
 void PIT_IRQHandler() {
     PIT_TFLG0 = 0x1;
-    led_red_toggle();
-    //display_image((rgb_color *) &_binary___bin_image_raw_start);
+    display_image((rgb_color *) &_binary___bin_image_raw_start);
+    //display_image_optimized((rgb_color *) &_binary___bin_image_raw_start, duration);
 }
+

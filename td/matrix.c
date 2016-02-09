@@ -83,7 +83,7 @@ void matrix_init() {
 
     // Reseting DM163 (wait at least 100ms)
     RST(0);
-    wait_for(500);
+    wait_for(200);
     RST(1);
 
     // Initializing
@@ -210,8 +210,17 @@ void mat_set_row(int row, const rgb_color *val) {
         send_byte(val[i].g, 1);
         send_byte(val[i].r, 1);
     }
-    activate_row(row);
+    desactivate_row((row == 0) ? 7 : row-1);
     pulse_LAT();
+    activate_row(row);
+    if (row == 7) {
+        for (int i=7; i>=0; --i) {
+            send_byte(val[i].b, 1);
+            send_byte(val[i].g, 1);
+            send_byte(val[i].r, 1);
+        }
+        desactivate_row(7);
+    }
 }
 
 void init_bank0() {
@@ -232,8 +241,18 @@ void test_pixels() {
             row[j].r = (i < 4) ? 0 : (i-4)*delta;
         }
         mat_set_row(i, row);
-        desactivate_row((i == 0) ? 7 : i-1);
-        wait_for(100);
+    }
+}
+
+void display_image_optimized(rgb_color * image_start, uint32_t duration){
+    if (!error) {
+        // image is diplayed during "duration" cycles
+        for (uint32_t t = duration; t !=0; --t) {
+            for (int i=0; i<8; ++i) {
+                mat_set_row(i, &image_start[i*8]); 
+            }
+            desactivate_rows();
+        }
     }
 }
 
@@ -242,7 +261,6 @@ void display_image(rgb_color * image_start){
     if (!error) {
         for (int i=0; i<8; ++i) {
             mat_set_row(i, &image_start[i*8]); 
-            desactivate_row((i == 0) ? 7 : i-1);
         }
     }
 }
