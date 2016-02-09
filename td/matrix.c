@@ -227,7 +227,7 @@ void test_pixels() {
     }
 }
  
-void mat_set_row(int row, const rgb_color *val) {
+void mat_set_row(int row, const rgb_color * val) {
     for (int i=7; i>=0; --i) {
         send_byte(val[i].b, 1);
         send_byte(val[i].g, 1);

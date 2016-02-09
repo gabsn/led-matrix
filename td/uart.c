@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "include/irq.h"
+#include "include/matrix.h"
 
 #define SIM_SOPT2 (*(volatile uint32_t * const) 0x40048004) 
 #define SIM_SOPT5 (*(volatile uint32_t * const) 0x40048010) 
@@ -20,10 +21,12 @@
 #define PORTA_PCR1 (*(volatile uint32_t * const) 0x40049004)
 #define PORTA_PCR2 (*(volatile uint32_t * const) 0x40049008)
 
-extern uint8_t _binary___bin_image_raw_start;
-
-uint8_t * image_byte = &_binary___bin_image_raw_start;
+rgb_color * image_1[64];
+rgb_color * image_2[64];
+uint8_t * current_byte = (uint8_t *) &image_1;
+uint8_t byte_counter = 0;
 uint8_t error = 0;
+uint8_t image_selector = 1; // points on the image being received
 
 void uart_init() {
     // Select the clock source for the UART0
@@ -109,12 +112,33 @@ void uart_gets(char *s, int size) {
     return;
 }
 
+// The idea is to alternate between 2 images in memory in order to use one of them as buffer
 void UART0_IRQHandler() {
     unsigned char c = uart_getchar();
-    if (c == 0xff) {
-        image_byte = &_binary___bin_image_raw_start; 
-        error = 0;
+    if (byte_counter == 0 && c != 0xff) {
+        error = 1;
+    } else if (byte_counter == 0 && c == 0xff) {
+        if (image_selector == 1) {
+            if (!error) { 
+                image_selector = 2;
+                current_byte = (uint8_t *) &image_2;
+            } else {
+                error = 0;
+            }
+        } else if (image_selector == 2) {
+            if (!error) {
+                image_selector = 1;
+                current_byte = (uint8_t *) &image_1;
+            } else {
+                error = 0;
+            }
+        }
+        byte_counter++;
+    } else if (byte_counter == 192) {
+        *current_byte = c;
+        byte_counter = 0;
     } else {
-        *image_byte++ = c;
+        *current_byte++ = c;
+        byte_counter++;
     }
 }

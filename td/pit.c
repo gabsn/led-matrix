@@ -15,10 +15,11 @@
 
 #define TIMES_PER_SEC 100 
 
-extern uint8_t _binary___bin_image_raw_start;
-uint32_t duration = 24e6/(8*TIMES_PER_SEC); // number of cycles to wait before triggering interrupt
+// number of cycles to wait before triggering interrupt
+uint32_t duration = 24e6/(8*TIMES_PER_SEC); 
 uint8_t row = 0;
-rgb_color * image_start = (rgb_color *) &_binary___bin_image_raw_start;
+extern rgb_color * image_1, image_2;
+extern uint8_t image_selector;
 
 void pit_init() {
     // Enable PIT's clock
@@ -45,7 +46,12 @@ void pit_init() {
 
 void PIT_IRQHandler() {
     PIT_TFLG0 = 0x1;
-    mat_set_row(row, &image_start[row*8]);
+    rgb_color * image_row; 
+    if (image_selector == 1) 
+        image_row = (rgb_color *) &image_2 + 8*row;
+    else
+        image_row = (rgb_color *) &image_1 + 8*row;
+    mat_set_row(row, image_row);
     (row == 7) ? row = 0 : ++row;
 }
 
