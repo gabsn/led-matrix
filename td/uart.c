@@ -118,25 +118,27 @@ void UART0_IRQHandler() {
     if (byte_counter == 0 && c != 0xff) {
         error = 1;
     } else if (byte_counter == 0 && c == 0xff) {
+        byte_counter++;
+    } else if (byte_counter == 192) {
+        *current_byte = c;
+        byte_counter = 0;
         if (image_selector == 1) {
             if (!error) { 
                 image_selector = 2;
                 current_byte = (uint8_t *) &image_2;
             } else {
                 error = 0;
+                current_byte = (uint8_t *) &image_1;
             }
-        } else if (image_selector == 2) {
+        } else {
             if (!error) {
                 image_selector = 1;
                 current_byte = (uint8_t *) &image_1;
             } else {
                 error = 0;
+                current_byte = (uint8_t *) &image_2;
             }
         }
-        byte_counter++;
-    } else if (byte_counter == 192) {
-        *current_byte = c;
-        byte_counter = 0;
     } else {
         *current_byte++ = c;
         byte_counter++;

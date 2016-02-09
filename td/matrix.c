@@ -54,8 +54,6 @@
 #define GPIOC_PCOR (*(volatile uint32_t * const) 0x400ff088)
 #define GPIOD_PCOR (*(volatile uint32_t * const) 0x400ff0c8)
 
-extern uint8_t error;
-
 void matrix_init() {
     // Set clock for port A, B, C and D
     SIM_SCGC5 |= 0x1e00;
