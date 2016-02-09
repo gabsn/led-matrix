@@ -7,8 +7,6 @@
 #include "include/buttons.h"
 #include "include/pit.h"
 
-extern uint8_t _binary___bin_image_raw_start;
-
 int main() {
     clocks_init();
     led_init();
@@ -17,7 +15,7 @@ int main() {
     irq_init();
     button_init();
     pit_init();
-    set_brightness(50);
+    set_brightness(30);
 
     return 0;
 }

@@ -199,24 +199,11 @@ void send_val_to_bank0(uint8_t val){
     }
 }
 
-
-void mat_set_row(int row, const rgb_color *val) {
-    for (int i=7; i>=0; --i) {
-        send_byte(val[i].b, 1);
-        send_byte(val[i].g, 1);
-        send_byte(val[i].r, 1);
-    }
-    desactivate_row((row == 0) ? 7 : row-1);
+// Set brightness modulo 64
+void set_brightness(uint8_t val) {
+    for (int i=0; i<24; ++i)
+        send_val_to_bank0(val);
     pulse_LAT();
-    activate_row(row);
-    if (row == 7) {
-        for (int i=7; i>=0; --i) {
-            send_byte(val[i].b, 1);
-            send_byte(val[i].g, 1);
-            send_byte(val[i].r, 1);
-        }
-        desactivate_row(7);
-    }
 }
 
 void init_bank0() {
@@ -239,32 +226,14 @@ void test_pixels() {
         mat_set_row(i, row);
     }
 }
-
-void display_image_optimized(rgb_color * image_start, uint32_t duration){
-    if (!error) {
-        // image is diplayed during "duration" cycles
-        for (uint32_t t = duration; t !=0; --t) {
-            for (int i=0; i<8; ++i) {
-                mat_set_row(i, &image_start[i*8]); 
-            }
-        }
+ 
+void mat_set_row(int row, const rgb_color *val) {
+    for (int i=7; i>=0; --i) {
+        send_byte(val[i].b, 1);
+        send_byte(val[i].g, 1);
+        send_byte(val[i].r, 1);
     }
-}
-
-// Lasts 1.92ms
-void display_image(rgb_color * image_start){
-    if (!error) {
-        for (int i=0; i<8; ++i) {
-            mat_set_row(i, &image_start[i*8]); 
-        }
-    }
-}
-
-// Set brightness modulo 64
-void set_brightness(uint8_t val) {
-    for (int i=0; i<24; ++i)
-        send_val_to_bank0(val);
+    desactivate_row((row == 0) ? 7 : row-1);
     pulse_LAT();
-}
-
-  
+    activate_row(row);
+} 

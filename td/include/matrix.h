@@ -13,8 +13,7 @@ void matrix_init();
 void init_bank0();
 void desactivate_rows();
 void test_pixels();
+void mat_set_row(int, const rgb_color *);
 void set_brightness(uint8_t);
-void display_image_optimized(rgb_color *, uint32_t);
-void display_image(rgb_color *);
 
 #endif 
