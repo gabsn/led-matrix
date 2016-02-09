@@ -17,13 +17,10 @@ OBJ = $(OBJSRC) clocks.o
 DEPS := $(subst .o,.d, $(OBJ))
 EXE = main
 
-
 ### Building rules ###
 all: $(EXE)
 	@echo "--> Project built."
 $(EXE): $(OBJ)
-image.o : image.raw
-	$(PREFIX)ld -r -b binary $< -o $@ 
 
 ### Dependencies ###
 -include $(DEPS)
