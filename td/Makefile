@@ -12,7 +12,7 @@ ASFLAGS = -g -mcpu=cortex-m0plus
 
 ### Sources files ###
 SRC = init.c led.c uart.c buttons.c irq.c matrix.c utils.c main.c pit.c
-OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o image.o flash.o
+OBJSRC = $(patsubst %.c, %.o, $(SRC)) crt0.o flash.o
 OBJ = $(OBJSRC) clocks.o
 DEPS := $(subst .o,.d, $(OBJ))
 EXE = main
